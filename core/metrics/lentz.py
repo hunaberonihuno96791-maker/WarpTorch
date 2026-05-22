@@ -6,6 +6,7 @@ import torch
 from typing import Tuple, Optional
 from core.metrics.base import MetricTensor
 from core.constants import C
+from core.utils import get_best_device
 
 def get_lentz_metric(
     grid_size: Tuple[int, int, int, int],
@@ -24,7 +25,7 @@ def get_lentz_metric(
         scale = max(grid_size[1:4]) / 7.0
         
     if device is None:
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = get_best_device()
         
     T, X, Y, Z = grid_size
     dt, dx, dy, dz = grid_scale

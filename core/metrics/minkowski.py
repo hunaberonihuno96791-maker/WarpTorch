@@ -5,6 +5,7 @@ Original implementation: metricGet_Minkowski.m
 import torch
 from typing import Tuple, Optional
 from core.metrics.base import MetricTensor
+from core.utils import get_best_device
 
 def get_minkowski_metric(
     grid_size: Tuple[int, int, int, int],
@@ -25,7 +26,7 @@ def get_minkowski_metric(
         MetricTensor object containing a tensor of shape (4, 4, T, X, Y, Z).
     """
     if device is None:
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = get_best_device()
         
     # Initialize the metric tensor with zeros
     metric_tensor = torch.zeros((4, 4, *grid_size), dtype=dtype, device=device)
