@@ -29,7 +29,6 @@ warptorch_py/
 │   ├── constants.py          # Physical constants & SI unit conversions
 │   │
 │   ├── metrics/              # Spacetime metric generators
-│   │   ├── __init__.py
 │   │   ├── base.py           # MetricTensor container class
 │   │   ├── minkowski.py      # Flat spacetime reference
 │   │   ├── alcubierre.py     # Alcubierre warp bubble geometry
@@ -38,30 +37,30 @@ warptorch_py/
 │   │   └── schwarzschild.py  # Schwarzschild black hole benchmark
 │   │
 │   ├── solver/               # Differential geometry field engines
-│   │   ├── __init__.py
 │   │   ├── finite_difference.py # 4th-order derivative operators
 │   │   ├── christoffel.py       # Loop-free Christoffel estimation
 │   │   ├── curvature.py         # Ricci tensor & curvature scalar engine
 │   │   └── energy.py            # Stress-Energy Tensor (Tμν) pipeline
 │   │
-│   └── analyzer/             # Physical diagnostics & frame dynamics
-│       ├── __init__.py
-│       ├── three_plus_one.py    # ADM decomposition (Lapse & Shift)
-│       ├── scalars.py           # Kinematic flow expansion/shear engines
-│       ├── frame_transfer.py    # Tensor index manipulation engines
-│       ├── vector_fields.py     # Fibonacci uniform vector generators
-│       └── energy_conditions.py # Parallelized NEC/WEC/SEC validation
+│   ├── analyzer/             # Physical diagnostics & frame dynamics
+│   │   ├── three_plus_one.py    # ADM decomposition (Lapse & Shift)
+│   │   ├── scalars.py           # Kinematic flow expansion/shear engines
+│   │   ├── frame_transfer.py    # Tensor index manipulation engines
+│   │   ├── frames.py            # Frames
+│   │   ├── momentum.py          # Momentum
+│   │   ├── vector_fields.py     # Fibonacci uniform vector generators
+│   │   └── energy_conditions.py # Parallelized NEC/WEC/SEC validation
+│   │
+│   ├── visualizer/               # Visual rendering & data formatting
+│   │   ├── slicing.py            # High-efficiency 2D tensor cutting
+│   │   └── export.py             # JSON streaming encoders for Three.js
+│   │
+│   ├── examples/                 # Interactive Jupyter analysis notebooks
+│   │   ├── 01_alcubierre_bubble_analysis.ipynb
+│   │   └── 02_schwarzschild_black_hole.ipynb
+│   │
+│   └── requirements.txt          # Python dependency specifications
 │
-├── visualizer/               # Visual rendering & data formatting
-│   ├── __init__.py
-│   ├── slicing.py            # High-efficiency 2D tensor cutting
-│   └── export.py             # JSON streaming encoders for Three.js
-│
-├── examples/                 # Interactive Jupyter analysis notebooks
-│   ├── 01_alcubierre_bubble_analysis.ipynb
-│   └── 02_schwarzschild_black_hole.ipynb
-│
-├── requirements.txt          # Python dependency specifications
 └── README.md                 # Project manual
 ```
 
@@ -102,14 +101,14 @@ To execute computations on your specific graphics hardware, install the appropri
 
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/cu121
-pip install -r requirements.txt
+pip install -r core/requirements.txt
 ```
 
 #### For CPU-Only Evaluation
 
 ```bash
 pip install torch
-pip install -r requirements.txt
+pip install -r core/requirements.txt
 ```
 
 ---
@@ -121,7 +120,7 @@ You can check your installation and compute your first superluminal warp drive b
 Open your environment terminal or Jupyter IDE and run:
 
 ```bash
-python -m examples.01_alcubierre_bubble_analysis
+python -m core.examples.01_alcubierre_bubble_analysis
 ```
 
 ### Programmatic Usage Example
@@ -156,9 +155,9 @@ print("Simulation successful! Active device:", energy_tensor.device)
 
 ---
 
-## 🛠️ Requirements Content (`requirements.txt`)
+## 🛠️ Requirements Content (`core/requirements.txt`)
 
-Ensure your `requirements.txt` file contains the following configurations to support visualization and notebook hosting:
+Ensure your `core/requirements.txt` file contains the following configurations to support visualization and notebook hosting:
 
 ```text
 numpy>=1.22.0
