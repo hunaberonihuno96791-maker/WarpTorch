@@ -3,6 +3,7 @@ JSON Exporter for Web Frontend (Three.js / React) Integration.
 """
 import json
 import numpy as np
+import torch
 
 class NumpyEncoder(json.JSONEncoder):
     """ Special json encoder for numpy types """
