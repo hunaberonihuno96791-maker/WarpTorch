@@ -1,0 +1,12 @@
+# Core Tensor Computation
+torch>=2.2.0
+
+# Science & Data Manipulation
+numpy>=1.24.0
+
+# Interactive Visualization
+plotly>=5.18.0
+
+# Jupyter Notebook Environment
+jupyterlab>=4.0.0
+ipywidgets>=8.1.0
