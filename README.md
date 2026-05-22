@@ -55,13 +55,13 @@ warptorch_py/
 │   │   ├── slicing.py            # High-efficiency 2D tensor cutting
 │   │   └── export.py             # JSON streaming encoders for Three.js
 │   │
-│   ├── examples/                 # Interactive Jupyter analysis notebooks
-│   │   ├── 01_alcubierre_bubble_analysis.ipynb
-│   │   └── 02_schwarzschild_black_hole.ipynb
-│   │
 │   └── requirements.txt          # Python dependency specifications
 │
-└── README.md                 # Project manual
+├── jupyter_notebooks/            # Interactive Jupyter analysis notebooks
+│   ├── 01_alcubierre_bubble_analysis.ipynb
+│   └── 02_schwarzschild_black_hole.ipynb
+│
+└── README.md                     # Project manual
 ```
 
 ---
@@ -141,7 +141,7 @@ You can check your installation and compute your first superluminal warp drive b
 Open your environment terminal or Jupyter IDE and run:
 
 ```bash
-python -m core.examples.01_alcubierre_bubble_analysis
+jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
 ```
 
 ### Programmatic Usage Example
