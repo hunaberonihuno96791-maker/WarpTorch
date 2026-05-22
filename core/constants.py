@@ -2,7 +2,6 @@
 Universal physical constants and unit conversion multipliers.
 All base quantities in WarpTorch are calculated in SI units (Meters, Kilograms, Seconds).
 """
-import torch
 
 # ==========================================
 # UNIVERSAL CONSTANTS
