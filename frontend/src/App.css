@@ -1,0 +1,15 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.canvas-container {
+  flex: 1;
+  position: relative;
+}
+
+.canvas-container canvas {
+  display: block;
+}
