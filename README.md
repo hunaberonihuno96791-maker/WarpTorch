@@ -19,52 +19,7 @@
 
 ---
 
-## 📐 Project Architecture
 
-```text
-warptorch_py/
-│
-├── core/
-│   ├── __init__.py
-│   ├── constants.py          # Physical constants & SI unit conversions
-│   │
-│   ├── metrics/              # Spacetime metric generators
-│   │   ├── base.py           # MetricTensor container class
-│   │   ├── minkowski.py      # Flat spacetime reference
-│   │   ├── alcubierre.py     # Alcubierre warp bubble geometry
-│   │   ├── lentz.py          # Positive energy Lentz soliton
-│   │   ├── vandenbroeck.py   # Van Den Broeck expanded volume bubble
-│   │   └── schwarzschild.py  # Schwarzschild black hole benchmark
-│   │
-│   ├── solver/               # Differential geometry field engines
-│   │   ├── finite_difference.py # 4th-order derivative operators
-│   │   ├── christoffel.py       # Loop-free Christoffel estimation
-│   │   ├── curvature.py         # Ricci tensor & curvature scalar engine
-│   │   └── energy.py            # Stress-Energy Tensor (Tμν) pipeline
-│   │
-│   ├── analyzer/             # Physical diagnostics & frame dynamics
-│   │   ├── three_plus_one.py    # ADM decomposition (Lapse & Shift)
-│   │   ├── scalars.py           # Kinematic flow expansion/shear engines
-│   │   ├── frame_transfer.py    # Tensor index manipulation engines
-│   │   ├── frames.py            # Frames
-│   │   ├── momentum.py          # Momentum
-│   │   ├── vector_fields.py     # Fibonacci uniform vector generators
-│   │   └── energy_conditions.py # Parallelized NEC/WEC/SEC validation
-│   │
-│   ├── visualizer/               # Visual rendering & data formatting
-│   │   ├── slicing.py            # High-efficiency 2D tensor cutting
-│   │   └── export.py             # JSON streaming encoders for Three.js
-│   │
-│   └── requirements.txt          # Python dependency specifications
-│
-├── jupyter_notebooks/            # Interactive Jupyter analysis notebooks
-│   ├── 01_alcubierre_bubble_analysis.ipynb
-│   └── 02_schwarzschild_black_hole.ipynb
-│
-└── README.md                     # Project manual
-```
-
----
 
 ## ⚙️ Installation & Setup
 
