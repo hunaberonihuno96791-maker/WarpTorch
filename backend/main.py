@@ -35,6 +35,15 @@ class AlcubierreParams(BaseModel):
 async def root():
     return {"message": "WarpTorch API - General Relativity Simulator"}
 
+@app.get("/health")
+async def health_check():
+    device = get_best_device()
+    return {
+        "status": "healthy",
+        "device": str(device),
+        "version": "1.0.0"
+    }
+
 @app.get("/api/health")
 async def health():
     device = get_best_device()

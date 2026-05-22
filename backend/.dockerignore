@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Development
+.git/
+.gitignore
+*.md
+.vscode/
+.idea/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# Documentation
+*.rst
+docs/
+
+# Output
+output/
+*.json
+
+# Docker
+Dockerfile
+.dockerignore
