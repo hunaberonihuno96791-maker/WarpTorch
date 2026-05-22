@@ -15,6 +15,10 @@ __pycache__/
 .ipynb_checkpoints
 *.ipynb_checkpoints/
 */.ipynb_checkpoints/*
+.ipynb_root
+
+# Keep notebook source but ignore execution outputs
+# (requires nbstripout or manual cleanup)
 
 # PyTorch
 *.pth
