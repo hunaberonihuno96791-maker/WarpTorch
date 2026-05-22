@@ -1,7 +1,0 @@
-# Core Module Dependencies
-# This file contains dependencies specific to the core module
-# For main WarpTorch dependencies, see ../requirements.txt
-# For development tools, see ../dev-requirements.txt
-
-# Note: Most dependencies are now in root requirements.txt
-# This file is kept for compatibility but can be phased out
