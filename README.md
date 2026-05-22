@@ -95,19 +95,40 @@ venv\Scripts\activate
 
 ### 3. Install Dependencies
 
-To execute computations on your specific graphics hardware, install the appropriate PyTorch build before installing ecosystem utilities.
+To execute computations on your specific hardware, install the appropriate PyTorch build before installing ecosystem utilities.
 
-#### For NVIDIA CUDA 12.1 (Recommended)
+#### For NVIDIA GPUs (CUDA 12.1) (Recommended)
 
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/cu121
 pip install -r core/requirements.txt
 ```
 
-#### For CPU-Only Evaluation
+#### For AMD GPUs (ROCm 6.0)
+
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/rocm6.0
+pip install -r core/requirements.txt
+```
+
+#### For macOS (Apple Silicon / MPS)
 
 ```bash
 pip install torch
+pip install -r core/requirements.txt
+```
+
+#### For Intel GPUs (XPU)
+
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
+pip install -r core/requirements.txt
+```
+
+#### For CPU-Only Evaluation
+
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cpu
 pip install -r core/requirements.txt
 ```
 

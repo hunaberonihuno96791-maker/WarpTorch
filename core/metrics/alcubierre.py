@@ -7,6 +7,7 @@ import math
 from typing import Tuple, Optional
 from core.metrics.base import MetricTensor
 from core.constants import C  # Import Speed of Light from constants module
+from core.utils import get_best_device
 
 def shape_function_alcubierre(r: torch.Tensor, R: float, sigma: float) -> torch.Tensor:
     """
@@ -54,7 +55,7 @@ def get_alcubierre_metric(
         MetricTensor object for the Alcubierre geometry.
     """
     if device is None:
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = get_best_device()
         
     T, X, Y, Z = grid_size
     dt, dx, dy, dz = grid_scale

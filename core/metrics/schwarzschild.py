@@ -5,6 +5,7 @@ Original implementation: metricGet_Schwarzschild.m
 import torch
 from typing import Tuple, Optional
 from core.metrics.base import MetricTensor
+from core.utils import get_best_device
 
 def get_schwarzschild_metric(
     grid_size: Tuple[int, int, int, int],
@@ -34,7 +35,7 @@ def get_schwarzschild_metric(
         warnings.warn("The time grid is greater than 1. Typically, only a size of 1 is used for static Schwarzschild solutions.")
         
     if device is None:
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = get_best_device()
         
     T, X, Y, Z = grid_size
     dt, dx, dy, dz = grid_scale
