@@ -6,19 +6,47 @@ $sourceDir = Get-Location
 
 # Список исключений
 $exclusions = @(
-    "[\\/]\.git[\\/]",
-    "[\\/]node_modules[\\/]",
-    "[\\/]data[\\/]",          
-    "[\\/]public[\\/]",          
-    "[\\/]storage[\\/]",       # Добавлено: исключаем кэш Crawlee
-    "[\\/]$outputDir[\\/]",  
-    "package-lock\.json$",     
-    "\.lock$",     
-    "\.sqlite$",               
-    "\.env$",                  
-    "\.ps1$",                  
-    "\.env\.prod$"             
-    "\.env\.dev$"             
+    "[\\/]\.git[\\/]",              # Git
+    "[\\/]venv[\\/]",               # Python virtual environment
+    "[\\/]__pycache__[\\/]",        # Python cache
+    "[\\/]node_modules[\\/]",       # Node.js dependencies
+    "[\\/]output[\\/]",             # Output directory
+    "[\\/]\.ipynb_checkpoints[\\/]", # Jupyter checkpoints
+    "[\\/]$outputDir[\\/]",         # Output directory of this script
+    "\.pyc$",                        # Python compiled files
+    "\.pyo$",                        # Python optimized files
+    "\.pyd$",                        # Python dynamic files
+    "\.so$",                         # Shared libraries
+    "\.egg-info$",                   # Python package info
+    "\.log$",                        # Log files
+    "\.env$",                        # Environment files
+    "\.env\.local$",                 # Environment local files
+    "\.env\.prod$",                  # Environment production files
+    "\.env\.dev$",                   # Environment development files
+    "package-lock\.json$",           # NPM lock file
+    "\.lock$",                       # Lock files
+    "\.sqlite$",                     # SQLite databases
+    "\.db$",                         # Database files
+    "merge\.sh$",                    # Bash merge script
+    "merge\.ps1$",                   # PowerShell merge script
+    "\.ps1$",                        # PowerShell scripts (excluding this one)
+    "\.min\.js$",                    # Minified JavaScript
+    "\.min\.css$",                   # Minified CSS
+    "[\\/]build[\\/]",              # Build directories
+    "[\\/]dist[\\/]",               # Distribution directories
+    "[\\/]\.pytest_cache[\\/]",     # pytest cache
+    "[\\/]\.coverage[\\/]",         # Coverage reports
+    "[\\/]htmlcov[\\/]",            # HTML coverage reports
+    "[\\/]site[\\/]",               # Documentation site
+    "[\\/]docs/_build[\\/]",        # Built documentation
+    "\.key$",                        # SSL keys
+    "\.pem$",                        # SSL certificates
+    "credentials\.json$",            # Credentials files
+    "[\\/]\.claude[\\/]",           # Claude internals
+    "[\\/]\.vscode[\\/]",           # VSCode settings
+    "[\\/]\.idea[\\/]",             # IntelliJ IDEA settings
+    "\.DS_Store$",                   # macOS files
+    "Thumbs\.db$"                    # Windows files
 )
 
 $binaryExtensions = @(".png", ".jpg", ".jpeg", ".ico", ".sqlite", ".zip", ".exe")
