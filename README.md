@@ -19,7 +19,28 @@
 
 ---
 
+## ✅ Prerequisites Check
 
+**Before installing WarpTorch, verify your system has the required software:**
+
+```bash
+# Check Python version (need 3.10+)
+python --version
+# OR
+python3 --version
+
+# Check Node.js version (need 18+)
+node --version
+
+# Check npm version
+npm --version
+```
+
+**If any command fails, install the missing software:**
+- **Python 3.10+** → [python.org](https://www.python.org/downloads/)
+- **Node.js 18+** → [nodejs.org](https://nodejs.org/)
+
+---
 
 ## ⚙️ Installation & Setup
 
@@ -128,6 +149,69 @@ scalars = get_kinematic_scalars(metric)
 
 print("Simulation successful! Active device:", energy_tensor.device)
 ```
+
+---
+
+## 🐳 Docker-Quickstart (Recommended for easy setup)
+
+If you have Docker installed, you can run the entire stack with a single command:
+
+```bash
+docker-compose up --build
+```
+
+This will start both the backend API (`http://localhost:8001`) and frontend UI (`http://localhost:3001`).
+
+**For different hardware configurations:**
+- CPU-only (default): `docker-compose up --build`
+- NVIDIA CUDA: `TORCH_VERSION=cuda docker-compose up --build`
+- AMD ROCm: `TORCH_VERSION=rocm docker-compose up --build`
+
+---
+
+## 💻 Running Without Docker
+
+**Don't have Docker or prefer native execution?** No problem!
+
+WarpTorch can be run directly on your system using Python and Node.js:
+
+### Quick Start
+
+**Open two terminals:**
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate  # Linux/macOS
+# OR
+venv\Scripts\activate     # Windows
+pip install -r requirements-cpu.txt
+python main.py
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Then open `http://localhost:3001` in your browser.
+
+### Detailed Setup
+
+See [`RUN_WITHOUT_DOCKER.md`](RUN_WITHOUT_DOCKER.md) for detailed instructions on:
+- Manual Python virtual environment setup
+- Different PyTorch hardware configurations (CPU, CUDA, ROCm, etc.)
+- Troubleshooting common issues
+- Jupyter notebook usage
+
+**Key advantages of running without Docker:**
+- Works on any system with Python 3.10+ and Node.js 18+
+- No Linux required — runs on Windows, macOS, and Linux
+- Easier debugging and development
+- Direct access to Python environment for custom experiments
 
 ---
 

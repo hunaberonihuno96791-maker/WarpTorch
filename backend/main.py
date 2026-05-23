@@ -6,7 +6,7 @@ import numpy as np
 import sys
 import os
 
-# Добавляем родительскую директорию в path для импорта модулей WarpTorch
+# Add parent directory to path for WarpTorch module imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from core.metrics.alcubierre import get_alcubierre_metric
@@ -16,7 +16,7 @@ from core.utils import get_best_device
 
 app = FastAPI(title="WarpTorch API")
 
-# Настройка CORS
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3001"],
@@ -56,10 +56,10 @@ async def health():
 @app.post("/api/simulate/alcubierre")
 async def simulate_alcubierre(params: AlcubierreParams):
     try:
-        # Получаем устройство для вычислений
+        # Get device for computations
         device = get_best_device()
 
-        # Создаем метрику Алькубьерре
+        # Create Alcubierre metric
         metric_tensor = get_alcubierre_metric(
             grid_size=(1, params.gridSize, params.gridSize, params.gridSize),
             grid_scale=(0.1, 0.5, 0.5, 0.5),
@@ -70,16 +70,16 @@ async def simulate_alcubierre(params: AlcubierreParams):
             device=device
         )
 
-        # Вычисляем тензор энергии-импульса
+        # Compute stress-energy tensor
         energy_tensor = get_energy_tensor(metric_tensor)
 
-        # Получаем 2D срез для визуализации
+        # Get 2D slice for visualization
         t00_slice = get_2d_slice(energy_tensor, component=(0, 0), slice_plane='xy')
 
-        # Конвертируем в numpy для отправки
+        # Convert to numpy for transmission
         t00_numpy = t00_slice.cpu().numpy()
 
-        # Вычисляем статистику
+        # Compute statistics
         energy_stats = {
             "min": float(np.min(t00_numpy)),
             "max": float(np.max(t00_numpy)),
@@ -87,8 +87,8 @@ async def simulate_alcubierre(params: AlcubierreParams):
             "std": float(np.std(t00_numpy))
         }
 
-        # Подготовка данных для отправки (сэмплируем для скорости)
-        sample_rate = max(1, params.gridSize // 64)  # Не более 64x64 точек
+        # Prepare data for transmission (sample for performance)
+        sample_rate = max(1, params.gridSize // 64)  # Max 64x64 points
         sampled_data = t00_numpy[::sample_rate, ::sample_rate].tolist()
 
         return {
