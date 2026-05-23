@@ -11,7 +11,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - BACKEND_PORT=8001
-      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:${FRONTEND_PORT:-3001},http://frontend:3001}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:${FRONTEND_PORT:-3001},http://frontend:${FRONTEND_PORT:-3001}}
     volumes:
       # Mount core directory for development (comment out for production)
       - ./core:/app/core:ro
