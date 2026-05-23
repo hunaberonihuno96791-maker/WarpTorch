@@ -7,11 +7,11 @@ help:
 	@echo "🚀 WarpTorch - Warp Simulations"
 	@echo "=========================================="
 	@echo "Quick start:"
-	@echo "  make up      - Запустить симуляцию"
-	@echo "  make down    - Остановить симуляцию"
-	@echo "  make logs    - Смотреть логи"
-	@echo "  make restart - Перезапустить симуляцию"
-	@echo "  make clean   - Полная очистка"
+	@echo "  make up      - Start simulation"
+	@echo "  make down    - Stop simulation"
+	@echo "  make logs    - View logs"
+	@echo "  make restart - Restart simulation"
+	@echo "  make clean   - Full cleanup"
 	@echo ""
 	@echo "PyTorch version switching:"
 	@echo "  make use-cpu  - Switch to CPU version (lightweight, ~200MB)"
@@ -31,10 +31,10 @@ help:
 
 up:
 	$(DOCKER_COMPOSE) up -d
-	@echo "\033[32m✓ Симуляция запущена!\033[0m"
-	@echo "  Frontend: \033[36mhttp://localhost:3001\033[0m"
-	@echo "  Backend:  \033[36mhttp://localhost:8001\033[0m"
-	@echo "  API Docs: \033[36mhttp://localhost:8001/docs\033[0m"
+	@echo "✓ Simulation started!"
+	@echo "  Frontend: http://localhost:3001"
+	@echo "  Backend:  http://localhost:8001"
+	@echo "  API Docs: http://localhost:8001/docs"
 
 down:
 	$(DOCKER_COMPOSE) down
@@ -47,7 +47,7 @@ restart:
 
 clean:
 	$(DOCKER_COMPOSE) down -v --remove-orphans
-	@echo "\033[32m✓ Очистка завершена\033[0m"
+	@echo "✓ Cleanup completed"
 
 # Hardware detection & installation commands
 detect:
@@ -97,7 +97,7 @@ use-cpu:
 	@$(DOCKER_COMPOSE) down
 	@$(DOCKER_COMPOSE) build --no-cache
 	@$(DOCKER_COMPOSE) up -d
-	@echo "\033[32m✓ Switched to CPU version (lightweight, ~200MB)\033[0m"
+	@echo "✓ Switched to CPU version (lightweight, ~200MB)"
 
 use-cuda:
 	@echo "🔄 Switching to CUDA version..."
@@ -108,4 +108,4 @@ use-cuda:
 	@$(DOCKER_COMPOSE) down
 	@$(DOCKER_COMPOSE) build --no-cache
 	@$(DOCKER_COMPOSE) up -d
-	@echo "\033[32m✓ Switched to CUDA version (large, ~2-5GB)\033[0m"
+	@echo "✓ Switched to CUDA version (large, ~2-5GB)"

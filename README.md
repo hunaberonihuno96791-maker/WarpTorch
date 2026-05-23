@@ -308,18 +308,38 @@ python run_simulation.py
 
 ## 🐳 Docker Alternative (Optional)
 
-**If you prefer Docker over native installation:**
+**If you prefer Docker over native installation, use the Makefile:**
 
 ```bash
-docker-compose up --build
+# Quick start
+make up              # Start all services
+make logs            # View logs
+make down            # Stop services
+make restart         # Restart services
+make clean           # Clean up everything
+
+# Hardware detection & installation
+make detect          # Detect hardware and show recommended installation
+make install         # Auto-install based on detected hardware
+make install-cpu     # Install CPU-only version
+make install-cuda    # Install NVIDIA CUDA version
+
+# Docker builds
+make docker-build       # Build with auto-detect hardware
+make docker-build-cpu   # Build CPU-only Docker image
+make docker-build-cuda  # Build CUDA-enabled Docker image
 ```
 
-This will start both the backend API (`http://localhost:8001`) and frontend UI (`http://localhost:3001`).
+**Hardware switching (requires rebuild):**
+```bash
+make use-cpu   # Switch to CPU version (lightweight, ~200MB)
+make use-cuda  # Switch to CUDA version (large, ~2-5GB)
+```
 
-**Hardware configurations:**
-- CPU-only (default): `docker-compose up --build`
-- NVIDIA CUDA: `TORCH_VERSION=cuda docker-compose up --build`
-- AMD ROCm: `TORCH_VERSION=rocm docker-compose up --build`
+**Services will run on:**
+- Frontend: `http://localhost:3001`
+- Backend: `http://localhost:8001`
+- API Docs: `http://localhost:8001/docs`
 
 **⚠️ Note:** Native installation (Methods A & B above) is recommended for most users - simpler setup and better performance.
 
