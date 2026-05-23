@@ -44,7 +44,7 @@ sec_violation = check_sec(energy_tensor)
 Most classical warp drive metrics (like Alcubierre) violate energy conditions, requiring:
 - **Negative energy densities**
 - **Exotic matter** (not observed in nature)
-- ** enormous mass-energy requirements**
+- **Enormous mass-energy requirements**
 
 Lentz's positive energy soliton is notable for potentially satisfying energy conditions while still achieving superluminal travel.
 

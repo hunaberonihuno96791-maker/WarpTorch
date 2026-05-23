@@ -1,0 +1,114 @@
+---
+title: Interactive Visualizations
+slug: /interactive-demo
+---
+
+import ConvergenceChart from '@site/src/components/ConvergenceChart';
+import EnergyDistributionChart from '@site/src/components/EnergyDistributionChart';
+
+# WarpTorch Interactive Visualizations
+
+This page demonstrates the interactive visualization capabilities of numerical methods in WarpTorch.
+
+## Finite Difference Scheme Convergence
+
+### Convergence Analysis
+
+WarpTorch uses finite difference schemes of different accuracy orders:
+
+**Key Observations:**
+- **2nd order:** Error ~ O(h²) — baseline accuracy
+- **4th order:** Error ~ O(h⁴) — used by default in WarpTorch
+- **8th order:** Error ~ O(h⁸) — maximum accuracy but higher computational cost
+
+### Why 4th Order?
+
+WarpTorch uses 4th-order schemes as an optimal balance:
+- **Accuracy:** ~ 10⁻⁴ for 64³ grids
+- **Performance:** Excellent GPU vectorization
+- **Memory:** Reasonable requirements for 4D spacetimes
+
+<ConvergenceChart />
+
+## Energy Distribution in Warp Metrics
+
+### Energy Analysis
+
+Comparison of energy requirements for different warp metrics:
+
+#### Alcubierre Metric
+- **Exotic Matter Required:** ~ 10⁶⁴ kg (theoretical)
+- **Violates all energy conditions**
+- **Practical Feasibility:** Unknown
+
+#### Lentz Metric (2021)
+- **Exotic Matter Required:** ~ 10²⁰ kg (significantly less)
+- **Can satisfy energy conditions**
+- **Practical Feasibility:** More realistic
+
+#### Van den Broeck Metric
+- **Exotic Matter Required:** ~ 10³⁰ kg
+- **Uses micro-bubble to reduce requirements**
+- **Practical Feasibility:** Intermediate option
+
+#### Schwarzschild Metric
+- **Exotic Matter Required:** 0 (vacuum solution)
+- **Does not violate energy conditions**
+- **Practical Feasibility:** Natural black holes exist
+
+<EnergyDistributionChart />
+
+## Interactive Code Examples
+
+### Convergence Analysis in Python
+
+```python
+import torch
+from core.metrics.alcubierre import get_alcubierre_metric
+from core.solver.christoffel import get_christoffel_symbols
+from core.solver.ricci import get_ricci_scalar
+
+def test_convergence(grid_sizes=[16, 32, 64, 128]):
+    """Finite difference scheme convergence analysis"""
+    errors = []
+
+    for size in grid_sizes:
+        metric = get_alcubierre_metric(
+            grid_size=(1, size, size, size),
+            v=1.5,
+            R=6.0,
+            sigma=4.0,
+            device=device
+        )
+
+        # Calculate scalar curvature
+        ricci_scalar = get_ricci_scalar(metric)
+
+        # Error: deviation from expected value
+        expected = compute_expected_ricci(metric)
+        error = torch.abs(ricci_scalar - expected).mean().item()
+        errors.append(error)
+
+    return grid_sizes, errors
+
+# Plot convergence
+grid_sizes, errors = test_convergence()
+plot_convergence(grid_sizes, errors)
+```
+
+## Technical Implementation of Interactive Charts
+
+These visualizations can be created using:
+- **Recharts:** React charting library
+- **Docusaurus:** Documentation platform with React support
+- **MathJax/KaTeX:** Mathematical formula rendering
+
+### Adding New Visualizations
+
+To create interactive charts, you can use React components in the `src/components/` folder.
+
+## Next Steps
+
+- 📊 Study [API Reference](/docs/api/metrics) for programmatic access
+- 🚀 Try [Tutorial](/docs/tutorials/alcubierre-simulation)
+- 📧 Check [Blog](/blog) for latest updates

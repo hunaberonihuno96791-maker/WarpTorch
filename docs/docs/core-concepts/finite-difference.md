@@ -1,38 +1,52 @@
 ---
 sidebar_position: 4
-title: Метод конечных разностей
+title: Finite Difference Method
 ---
 
-# Метод конечных разностей в WarpTorch
+# Finite Difference Method in WarpTorch
 
-## 4-х порядковые схемы конечных разностей
+## 4th-Order Finite Difference Schemes
 
-WarpTorch использует 4-х порядковые центральные схемы конечных разностей для вычисления производных метрического тензора.
+WarpTorch uses 4th-order central finite difference schemes for computing metric tensor derivatives.
 
-Это обеспечивает **4-й порядок точности** при вычислении символов Кристоффеля, тензора Риччи, скалярной кривизны и тензора энергии-импульса.
+This provides **4th-order accuracy** when computing Christoffel symbols, Ricci tensor, scalar curvature, and stress-energy tensor.
 
-## Интерактивная визуализация сходимости
+### Central Difference Formula
 
-Смотри интерактивные графики на странице [Демо](/docs/interactive-demo).
+The 4th-order central difference formula for first derivatives is:
 
-## Производительность на GPU
+```
+f'(x) = (-f(x+2h) + 8f(x+h) - 8f(x-h) + f(x-2h))/(12h) + O(h^4)
+```
 
-4-х порядковые схемы отлично векторизуются на GPU:
+For second derivatives:
+
+```
+f''(x) = (-f(x+2h) + 16f(x+h) - 30f(x) + 16f(x-h) - f(x-2h))/(12h^2) + O(h^4)
+```
+
+## Interactive Convergence Visualization
+
+See interactive charts on the [Demo page](/docs/interactive-demo).
+
+## GPU Performance
+
+4th-order schemes vectorize excellently on GPU:
 
 ```python
-# Пример вычисления символов Кристоффеля на GPU
+# Example: computing Christoffel symbols on GPU
 from core.solver.christoffel import get_christoffel_symbols
 
-christoffel = get_christoffel_symbols(metric)  # Вычисляется на CUDA Tensor Cores
+christoffel = get_christoffel_symbols(metric)  # Computed on CUDA Tensor Cores
 print(f"Computed on: {christoffel.device}")     # cuda:0
 ```
 
-## Преимущества 4-х порядка
+## Advantages of 4th Order
 
-| Порядок схемы | Точность | Производительность | Использование GPU |
-|---------------|----------|--------------------|-------------------|
-| **2-й порядок** | O(h²) | Базовая | Отличная |
-| **4-й порядок** | O(h⁴) | Высокая | Отличная |
-| **6-й порядок** | O(h⁶) | Средняя | Хорошая |
+| Scheme Order | Accuracy | Performance | GPU Utilization |
+|--------------|----------|-------------|-----------------|
+| **2nd order** | O(h²) | Baseline | Excellent |
+| **4th order** | O(h⁴) | High | Excellent |
+| **6th order** | O(h⁶) | Medium | Good |
 
-WarpTorch использует **4-й порядок** как оптимальный баланс между точностью и производительностью.
+WarpTorch uses **4th order** as the optimal balance between accuracy and performance.

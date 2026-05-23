@@ -1,27 +1,27 @@
 ---
 sidebar_position: 5
-title: Метрика Минковского
+title: Minkowski Metric
 ---
 
-# Метрика Минковского
+# Minkowski Metric
 
-Базовая плоская метрика специальной теории относительности — эталон для всех других метрик.
+The basic flat metric of special relativity — the reference for all other metrics.
 
-## Математическое определение
+## Mathematical Definition
 
-Метрика Минковского описывает плоское пространство-время без гравитации. В матричном виде имеет сигнатуру (-+++).
+The Minkowski metric describes flat spacetime without gravity. In matrix form, it has signature (-+++).
 
-## Свойства метрики Минковского
+## Properties of Minkowski Metric
 
-### Риманов тензор
+### Riemann Tensor
 
-Все компоненты тензора кривизны равны нулю — пространство-время является плоским.
+All curvature tensor components are zero — spacetime is flat.
 
-### Тензор энергии-импульса
+### Stress-Energy Tensor
 
-Тензор энергии-импульса равен нулю — это вакуумное решение уравнений Эйнштейна.
+The stress-energy tensor is zero — this is a vacuum solution of Einstein's equations.
 
-## Использование в WarpTorch
+## Usage in WarpTorch
 
 ```python
 from core.metrics.minkowski import get_minkowski_metric
@@ -31,41 +31,41 @@ metric = get_minkowski_metric(
     device=device
 )
 
-# Проверка: все тензоры кривизны должны быть нулевыми
+# Verification: all curvature tensors should be zero
 from core.solver.ricci import get_ricci_tensor
 ricci = get_ricci_tensor(metric)
 assert torch.allclose(ricci, torch.zeros_like(ricci))
 ```
 
-## Роль в WarpTorch
+## Role in WarpTorch
 
-### Базовая линия для тестов
+### Baseline for Testing
 
-Метрика Минковского используется для:
-- **Валидации численных методов** — все производные должны быть нулевыми
-- **Тестирования сходимости** — отклонение от нуля указывает на численные ошибки
-- **Калибровки визуализации** — эталонный "плоский" случай
+The Minkowski metric is used for:
+- **Validating numerical methods** — all derivatives should be zero
+- **Testing convergence** — deviation from zero indicates numerical errors
+- **Visualization calibration** — reference "flat" case
 
-### Сравнение с кривым пространством-временем
+### Comparison with Curved Spacetime
 
-| Метрика | Кривизна | Тензор энергии-импульса | Энергетические условия |
-|---------|----------|------------------------|-------------------------|
-| **Минковский** | R = 0 | 0 | Вакуум |
-| **Алькубьерре** | R ≠ 0 | T₀₀ < 0 | Нарушает WEC |
-| **Шварцшильд** | R ≠ 0 | Tμν = 0 | Вакуум (r > rs) |
+| Metric | Curvature | Stress-Energy Tensor | Energy Conditions |
+|--------|-----------|---------------------|-------------------|
+| **Minkowski** | R = 0 | 0 | Vacuum |
+| **Alcubierre** | R ≠ 0 | T₀₀ < 0 | Violates WEC |
+| **Schwarzschild** | R ≠ 0 | Tμν = 0 | Vacuum (r > rs) |
 
-## Интерактивная визуализация
+## Interactive Visualization
 
-Интерактивные визуализации доступны на странице [Демо](/docs/interactive-demo).
+Interactive visualizations are available on the [Demo page](/docs/interactive-demo).
 
-## Преимущества
+## Advantages
 
-1. **Простота** — аналитическое решение
-2. **Точность** — нет численных ошибок
-3. **Производительность** — минимальные вычисления
-4. **База для сравнения** — контрольный случай
+1. **Simplicity** — analytical solution
+2. **Accuracy** — no numerical errors
+3. **Performance** — minimal computation
+4. **Comparison baseline** — control case
 
-## Ссылки
+## References
 
 - Minkowski, H. (1908). "Raum und Zeit"
 - [Special Relativity](https://en.wikipedia.org/wiki/Minkowski_space)

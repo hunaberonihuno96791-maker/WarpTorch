@@ -1,31 +1,31 @@
 ---
 sidebar_position: 1
-title: Метрика Алькубьерре
+title: Alcubierre Metric
 ---
 
-# Метрика Алькубьерре
+# Alcubierre Metric
 
-Оригинальная варп-метрика, предложенная Мигелем Алькубьерре в 1994 году.
+The original warp metric proposed by Miguel Alcubierre in 1994.
 
-## Математическое определение
+## Mathematical Definition
 
-Метрический тензор для варп-пузыря Алькубьерре описывает пространство-время с варп-пузырем, движущимся со скоростью v_s.
+The metric tensor for the Alcubierre warp bubble describes spacetime with a warp bubble moving at velocity $v_s$.
 
-### Форм-функция
+### Shape Function
 
-Форм-функция определяет форму варп-пузыря и использует гиперболический тангенс для создания гладких стенок пузыря.
+The shape function determines the form of the warp bubble and uses hyperbolic tangent to create smooth bubble walls.
 
-### Основные параметры:
-- **v** — скорость варп-пузыря (в единицах c)
-- **R** — радиус варп-пузыря  
-- **sigma** — толщина стенки пузыря
-- **r_s** — расстояние от центра пузыря
+### Key Parameters:
+- **v** — warp bubble velocity (in units of c)
+- **R** — warp bubble radius
+- **sigma** — bubble wall thickness
+- **r_s** — distance from bubble center
 
-## Тензор энергии-импульса
+## Stress-Energy Tensor
 
-Тензор энергии-импульса для метрики Алькубьерре содержит **отрицательную плотность энергии**, что нарушает слабое энергетическое условие (WEC) и требует экзотической материи.
+The stress-energy tensor for the Alcubierre metric contains **negative energy density**, which violates the weak energy condition (WEC) and requires exotic matter.
 
-## Использование в WarpTorch
+## Usage in WarpTorch
 
 ```python
 from core.metrics.alcubierre import get_alcubierre_metric
@@ -33,32 +33,32 @@ from core.metrics.alcubierre import get_alcubierre_metric
 metric = get_alcubierre_metric(
     grid_size=(1, 64, 64, 64),
     world_center=(0.0, 16.0, 16.0, 16.0),
-    v=1.5,     # Скорость в единицах c
-    R=6.0,     # Радиус пузыря
-    sigma=4.0, # Толщина стенки
+    v=1.5,     # Velocity in units of c
+    R=6.0,     # Bubble radius
+    sigma=4.0, # Wall thickness
     device=device
 )
 
-# Доступ к компонентам метрики
-g_uv = metric.g_uv        # Метрический тензор
-coordinates = metric.coordinates  # Координатная сетка
+# Access metric components
+g_uv = metric.g_uv        # Metric tensor
+coordinates = metric.coordinates  # Coordinate grid
 ```
 
-## Физические свойства
+## Physical Properties
 
-| Свойство | Значение |
-|----------|----------|
-| **Тип метрики** | Варп-двигатель |
-| **Энергетические условия** | Нарушает WEC, NEC, SEC |
-| **Скорость** | Произвольная $v$ |
-| **Горизонт событий** | Отсутствует |
-| **Сингулярности** | Отсутствуют |
+| Property | Value |
+|----------|-------|
+| **Metric Type** | Warp Drive |
+| **Energy Conditions** | Violates WEC, NEC, SEC |
+| **Velocity** | Arbitrary v |
+| **Event Horizon** | Absent |
+| **Singularities** | None |
 
-## Визуализация
+## Visualization
 
-Интерактивные визуализации доступны на странице [Демо](/docs/interactive-demo).
+Interactive visualizations are available on the [Demo page](/docs/interactive-demo).
 
-## Ссылки
+## References
 
 - Alcubierre, M. (1994). "The warp drive: hyper-fast travel within general relativity". Classical and Quantum Gravity.
 - [WarpFactory documentation](https://warpfactory.org)

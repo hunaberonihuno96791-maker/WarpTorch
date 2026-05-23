@@ -1,63 +1,63 @@
 ---
 sidebar_position: 3
-title: Метрика Шварцшильда
+title: Schwarzschild Metric
 ---
 
-# Метрика Шварцшильда
+# Schwarzschild Metric
 
-Классическое решение уравнений Эйнштейна для сферически-симметричного черного тела.
+Classical solution of Einstein's equations for a spherically symmetric black body.
 
-## Математическое определение
+## Mathematical Definition
 
-Метрика Шварцшильда описывает пространство-время вокруг незаряженной, невращающейся сферически-симметричной массы M.
+The Schwarzschild metric describes spacetime around an uncharged, non-rotating spherically symmetric mass M.
 
-## Характерные масштабы
+## Characteristic Scales
 
-### Радиус Шварцшильда
+### Schwarzschild Radius
 
-Радиус Шварцшильда определяется как rs = 2GM/c². Для черной дыры с массой Солнца rs ≈ 3 км.
+The Schwarzschild radius is defined as rs = 2GM/c². For a black hole with the mass of the Sun, rs ≈ 3 km.
 
-## Сингулярности
+## Singularities
 
-### Кривизнная сингулярность
+### Curvature Singularity
 
-При r → 0 скалярная кривизна Кречмана обращается в бесконечность — это настоящая сингулярность пространства-времени.
+As r → 0, the Kretschmann scalar curvature diverges to infinity — this is a true spacetime singularity.
 
-### Координатная сингулярность
+### Coordinate Singularity
 
-При r = rs компонента метрики обращается в бесконечность, но это особенность координат, а не пространства-времени.
+At r = rs, a metric component diverges, but this is a coordinate singularity, not a spacetime singularity.
 
-## Использование в WarpTorch
+## Usage in WarpTorch
 
 ```python
 from core.metrics.schwarzschild import get_schwarzschild_metric
 
 metric = get_schwarzschild_metric(
     grid_size=(1, 64, 64, 64),
-    M=1.0,     # Масса черной дыры
+    M=1.0,     # Black hole mass
     device=device
 )
 
-# Вычисление тензора энергии-импульса
+# Calculate stress-energy tensor
 from core.solver.energy import get_energy_tensor
 energy = get_energy_tensor(metric)
 ```
 
-## Физические свойства
+## Physical Properties
 
-| Свойство | Значение |
-|----------|----------|
-| **Тип метрики** | Черная дыра |
-| **Масса** | $M$ |
-| **Заряд** | $Q = 0$ |
-| **Момент импульса** | $J = 0$ |
-| **Горизонт событий** | $r_s = 2GM/c^2$ |
+| Property | Value |
+|----------|-------|
+| **Metric Type** | Black Hole |
+| **Mass** | M |
+| **Charge** | Q = 0 |
+| **Angular Momentum** | J = 0 |
+| **Event Horizon** | rs = 2GM/c² |
 
-## Визуализация пространства-времени
+## Spacetime Visualization
 
-Интерактивные визуализации доступны на странице [Демо](/docs/interactive-demo).
+Interactive visualizations are available on the [Demo page](/docs/interactive-demo).
 
-## Ссылки
+## References
 
 - Schwarzschild, K. (1916). "Über das Gravitationsfeld eines Massenpunktes nach der Einsteinschen Theorie"
 - [Black Hole Math](https://mathworld.wolfram.com/SchwarzschildBlackHole.html)

@@ -10,7 +10,7 @@ sidebar_position: 3
 
 ## The Three Scalars
 
-### Expansion (θ)
+### Expansion
 Describes the expansion or contraction of spacetime volume.
 
 ```python
@@ -21,7 +21,7 @@ expansion = get_expansion(metric)
 # Negative values: contraction (crunch-like)
 ```
 
-### Shear (σ)
+### Shear
 Describes distortion without volume change.
 
 ```python
@@ -31,7 +31,35 @@ shear = get_shear(metric)
 # Tidal forces that stretch and squeeze
 ```
 
-### Vorticity (ω)
+### Vorticity
+Describes rotation of the spacetime congruence.
+
+```python
+from core.analyzer.scalars import get_vorticity
+
+vorticity = get_vorticity(metric)
+# Frame-dragging effects
+```
+
+```python
+from core.analyzer.scalars import get_expansion
+
+expansion = get_expansion(metric)
+# Positive values: expansion (big bang-like)
+# Negative values: contraction (crunch-like)
+```
+
+### Shear ($\sigma$)
+Describes distortion without volume change.
+
+```python
+from core.analyzer.scalars import get_shear
+
+shear = get_shear(metric)
+# Tidal forces that stretch and squeeze
+```
+
+### Vorticity ($\omega$)
 Describes rotation of the spacetime congruence.
 
 ```python

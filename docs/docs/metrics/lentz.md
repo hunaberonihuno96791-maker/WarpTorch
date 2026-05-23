@@ -1,62 +1,62 @@
 ---
 sidebar_position: 2
-title: Метрика Ленца
+title: Lentz Metric
 ---
 
-# Метрика Ленца
+# Lentz Metric
 
-Варп-метрика с положительной плотностью энергии, предложенная Эриком Ленцем в 2021 году.
+Positive energy warp metric proposed by Erik Lentz in 2021.
 
-## Математическое определение
+## Mathematical Definition
 
-Метрика Ленца использует солитонные решения для создания варп-пузыря без нарушений энергетических условий.
+The Lentz metric uses soliton solutions to create a warp bubble without violating energy conditions.
 
-## Форм-функция Ленца
+## Lentz Shape Function
 
-Функция F(rs) конструируется из суперпозиции солитонных волн, что позволяет получить **положительную плотность энергии** в определенных конфигурациях.
+The function F(rs) is constructed from a superposition of soliton waves, allowing for **positive energy density** in certain configurations.
 
-## Тензор энергии-импульса
+## Stress-Energy Tensor
 
-В отличие от метрики Алькубьерре, метрика Ленца может удовлетворять **энергетическим условиям** для некоторых наборов параметров.
+Unlike the Alcubierre metric, the Lentz metric can satisfy **energy conditions** for some parameter sets.
 
-## Использование в WarpTorch
+## Usage in WarpTorch
 
 ```python
 from core.metrics.lentz import get_lentz_metric
 
 metric = get_lentz_metric(
     grid_size=(1, 64, 64, 64),
-    v=1.0,     # Скорость варп-пузыря
-    R=5.0,     # Характерный радиус
+    v=1.0,     # Warp bubble velocity
+    R=5.0,     # Characteristic radius
     device=device
 )
 
-# Проверка энергетических условий
+# Check energy conditions
 from core.solver.energy import check_energy_conditions
 conditions = check_energy_conditions(metric)
 ```
 
-## Физические свойства
+## Physical Properties
 
-| Свойство | Значение |
-|----------|----------|
-| **Тип метрики** | Варп-двигатель |
-| **Энергетические условия** | Может удовлетворять WEC |
-| **Скорость** | Ограничена |
-| **Горизонт событий** | Отсутствует |
-| **Сингулярности** | Отсутствуют |
+| Property | Value |
+|----------|-------|
+| **Metric Type** | Warp Drive |
+| **Energy Conditions** | Can satisfy WEC |
+| **Velocity** | Limited |
+| **Event Horizon** | Absent |
+| **Singularities** | None |
 
-## Преимущества перед Алькубьерре
+## Advantages Over Alcubierre
 
-1. **Положительная энергия** — не требует экзотической материи
-2. **Стабильность** — более устойчива к возмущениям
-3. **Экспериментальная проверка** — может быть протестирована в лаборатории
+1. **Positive Energy** — does not require exotic matter
+2. **Stability** — more stable to perturbations
+3. **Experimental Verification** — can be tested in laboratory settings
 
-## Визуализация распределения энергии
+## Energy Distribution Visualization
 
-Интерактивные визуализации доступны на странице [Демо](/docs/interactive-demo).
+Interactive visualizations are available on the [Demo page](/docs/interactive-demo).
 
-## Ссылки
+## References
 
 - Lentz, E. (2021). "Breaking the Warp Barrier: Hyper-Fast Solitons in Einstein-Maxwell-Plasma Theory"
 - [Positive Energy Warp Drives](https://arxiv.org/abs/2006.07175)

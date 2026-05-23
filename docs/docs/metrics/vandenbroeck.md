@@ -1,64 +1,64 @@
 ---
 sidebar_position: 4
-title: Метрика Ван den Брока
+title: Van den Broeck Metric
 ---
 
-# Метрика Ван den Брока
+# Van den Broeck Metric
 
-Модифицированная варп-метрика с микропузырем, уменьшающая требования к экзотической материи.
+Modified warp metric with micro-bubble that reduces exotic matter requirements.
 
-## Математическое определение
+## Mathematical Definition
 
-Метрика Ван den Брока использует конфромное преобразование для сокращения объема варп-пузыря.
+The Van den Broeck metric uses a conformal transformation to reduce the warp bubble volume.
 
-## Конформный фактор
+## Conformal Factor
 
-Конформный фактор B²(rs) сильно сжимает пространство внутри пузыря, создавая **микро-пузырь** с эффективным объемом гораздо меньше внешнего объема.
+The conformal factor B²(rs) strongly compresses space inside the bubble, creating a **micro-bubble** with effective volume much smaller than the external volume.
 
-## Тензор энергии-импульса
+## Stress-Energy Tensor
 
-Требования к экзотической материи пропорциональны отношению объемов внутреннего и внешнего пространства, что значительно снижает требования к отрицательной энергии по сравнению с Алькубьерре.
+Exotic matter requirements are proportional to the ratio of internal to external space volumes, significantly reducing negative energy requirements compared to Alcubierre.
 
-## Использование в WarpTorch
+## Usage in WarpTorch
 
 ```python
 from core.metrics.vandenbroeck import get_vandenbroeck_metric
 
 metric = get_vandenbroeck_metric(
     grid_size=(1, 64, 64, 64),
-    v=1.5,     # Скорость варп-пузыря
-    R=6.0,     # Внешний радиус
+    v=1.5,     # Warp bubble velocity
+    R=6.0,     # External radius
     device=device
 )
 
-# Анализ энергетических требований
+# Analyze energy requirements
 from core.solver.energy import get_energy_density
 energy_density = get_energy_density(metric)
 total_exotic_energy = energy_density.sum()
 ```
 
-## Физические свойства
+## Physical Properties
 
-| Свойство | Значение |
-|----------|----------|
-| **Тип метрики** | Варп-двигатель (микро-пузырь) |
-| **Энергетические условия** | Нарушает WEC (меньше чем Алькубьерре) |
-| **Скорость** | Произвольная $v$ |
-| **Эффективность** | Выше чем Алькубьерре |
+| Property | Value |
+|----------|-------|
+| **Metric Type** | Warp Drive (micro-bubble) |
+| **Energy Conditions** | Violates WEC (less than Alcubierre) |
+| **Velocity** | Arbitrary $v$ |
+| **Efficiency** | Higher than Alcubierre |
 
-## Преимущества перед Алькубьерре
+## Advantages Over Alcubierre
 
-| Параметр | Алькубьерре | Ван den Брок |
-|----------|-------------|--------------|
-| **Экзотическая материя** | $E \sim -10^{64}$ кг | $E \sim -10^{20}$ кг |
-| **Объем пузыря** | Полный | Микро-пузырь |
-| **Практичность** | Теоретическая | Более реализуемая |
+| Parameter | Alcubierre | Van den Broeck |
+|-----------|------------|----------------|
+| **Exotic Matter** | E ~ -10^64 kg | E ~ -10^20 kg |
+| **Bubble Volume** | Full | Micro-bubble |
+| **Practicality** | Theoretical | More achievable |
 
-## Визуализация конформного фактора
+## Conformal Factor Visualization
 
-Интерактивные визуализации доступны на странице [Демо](/docs/interactive-demo).
+Interactive visualizations are available on the [Demo page](/docs/interactive-demo).
 
-## Ссылки
+## References
 
 - Van den Broeck, C. (1999). "A 'warp drive' with more reasonable total energy requirements"
 - [Warp Drive Modifications](https://arxiv.org/abs/gr-qc/9905084)
