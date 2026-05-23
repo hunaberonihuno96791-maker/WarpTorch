@@ -2,6 +2,10 @@
 # Stage 1: Builder
 FROM node:20-alpine AS builder
 
+# Build arguments
+ARG FRONTEND_PORT=3001
+ARG BACKEND_PORT=8001
+
 WORKDIR /app
 
 # Copy package files
@@ -13,7 +17,9 @@ RUN npm ci --only=production=false
 # Copy source code
 COPY frontend/ ./
 
-# Build the application
+# Build the application with port variables
+ENV VITE_FRONTEND_PORT=${FRONTEND_PORT}
+ENV VITE_BACKEND_PORT=${BACKEND_PORT}
 RUN npm run build
 
 # Stage 2: Runtime with nginx

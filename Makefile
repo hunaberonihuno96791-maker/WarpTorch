@@ -1,5 +1,15 @@
 .PHONY: help up down logs restart clean build build-cpu build-cuda use-cpu use-cuda
 
+# Load environment variables from .env file
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
+# Set default values if not defined in .env
+FRONTEND_PORT ?= 3001
+BACKEND_PORT ?= 8001
+
 DOCKER_COMPOSE := $(shell command -v docker-compose >/dev/null 2>&1 && echo "docker-compose" || echo "docker compose")
 
 help:
@@ -35,9 +45,9 @@ up:
 	@echo "🚀 Starting services..."
 	$(DOCKER_COMPOSE) up -d
 	@echo "✓ Services started!"
-	@echo "  Frontend: http://localhost:3001"
-	@echo "  Backend:  http://localhost:8001"
-	@echo "  API Docs: http://localhost:8001/docs"
+	@echo "  Frontend: http://localhost:$(FRONTEND_PORT)"
+	@echo "  Backend:  http://localhost:$(BACKEND_PORT)"
+	@echo "  API Docs: http://localhost:$(BACKEND_PORT)/docs"
 
 down:
 	$(DOCKER_COMPOSE) down
@@ -73,9 +83,11 @@ build-cuda:
 use-cpu:
 	@echo "🔄 Switching to CPU version..."
 	@echo "TORCH_VERSION=cpu" > .env
-	@echo "FRONTEND_PORT=3001" >> .env
-	@echo "BACKEND_PORT=8001" >> .env
-	@echo "CORS_ORIGINS=http://localhost:3001,http://frontend:3001" >> .env
+	@echo "FRONTEND_PORT=$(FRONTEND_PORT)" >> .env
+	@echo "VITE_FRONTEND_PORT=$(FRONTEND_PORT)" >> .env
+	@echo "BACKEND_PORT=$(BACKEND_PORT)" >> .env
+	@echo "VITE_BACKEND_PORT=$(BACKEND_PORT)" >> .env
+	@echo "CORS_ORIGINS=http://localhost:$(FRONTEND_PORT),http://frontend:$(FRONTEND_PORT)" >> .env
 	@$(DOCKER_COMPOSE) down
 	@$(DOCKER_COMPOSE) build --no-cache --build-arg TORCH_VERSION=cpu
 	@$(DOCKER_COMPOSE) up -d
@@ -84,9 +96,11 @@ use-cpu:
 use-cuda:
 	@echo "🔄 Switching to CUDA version..."
 	@echo "TORCH_VERSION=cuda" > .env
-	@echo "FRONTEND_PORT=3001" >> .env
-	@echo "BACKEND_PORT=8001" >> .env
-	@echo "CORS_ORIGINS=http://localhost:3001,http://frontend:3001" >> .env
+	@echo "FRONTEND_PORT=$(FRONTEND_PORT)" >> .env
+	@echo "VITE_FRONTEND_PORT=$(FRONTEND_PORT)" >> .env
+	@echo "BACKEND_PORT=$(BACKEND_PORT)" >> .env
+	@echo "VITE_BACKEND_PORT=$(BACKEND_PORT)" >> .env
+	@echo "CORS_ORIGINS=http://localhost:$(FRONTEND_PORT),http://frontend:$(FRONTEND_PORT)" >> .env
 	@$(DOCKER_COMPOSE) down
 	@$(DOCKER_COMPOSE) build --no-cache --build-arg TORCH_VERSION=cuda
 	@$(DOCKER_COMPOSE) up -d

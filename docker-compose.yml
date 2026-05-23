@@ -10,7 +10,8 @@ services:
       - "${BACKEND_PORT:-8001}:8001"
     environment:
       - PYTHONUNBUFFERED=1
-      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3001,http://frontend:3001}
+      - BACKEND_PORT=8001
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:${FRONTEND_PORT:-3001},http://frontend:3001}
     volumes:
       # Mount core directory for development (comment out for production)
       - ./core:/app/core:ro
@@ -29,6 +30,9 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
+      args:
+        - FRONTEND_PORT=${FRONTEND_PORT:-3001}
+        - BACKEND_PORT=${BACKEND_PORT:-8001}
     container_name: warptorch-frontend
     ports:
       - "${FRONTEND_PORT:-3001}:3001"
