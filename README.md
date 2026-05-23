@@ -276,74 +276,33 @@ print("Simulation successful! Active device:", energy_tensor.device)
 
 ---
 
-## 📦 Requirements Overview
+## 🎮 Interactive Simulation Runner
 
-**WarpTorch uses a unified requirements.txt file for all dependencies:**
+**Run spacetime simulations directly from terminal with interactive menu:**
 
+```bash
+# Activate virtual environment
+source venv/bin/activate  # Linux/macOS
+# OR
+venv\Scripts\activate     # Windows
+
+# Launch interactive simulation menu
+python run_simulation.py
 ```
-WarpTorch/
-└── requirements.txt                    # All dependencies (torch CPU, fastapi, jupyter, etc.)
-```
 
-### What's Included
-- **Core**: torch (CPU by default), numpy, plotly, rich, questionary
-- **Backend**: fastapi, uvicorn, pydantic
-- **Development**: jupyterlab, ipywidgets, ipykernel, nbstripout
+**Available simulations:**
+- **alcubierre** - Classic warp drive bubble (Alcubierre 1994)
+- **lentz** - Positive energy soliton (Lentz 2021)
+- **schwarzschild** - Black hole spacetime
+- **vandenbroeck** - Modified micro-bubble
+- **minkowski** - Flat vacuum baseline
 
----
-
-## 🔧 Troubleshooting
-
-### Common Issues and Solutions
-
-**❌ "python: command not found"**
-- Install Python 3.10+ from [python.org](https://www.python.org/downloads/)
-- Windows: During installation, check "Add Python to PATH"
-
-**❌ "npm: command not found"**
-- Install Node.js 18+ from [nodejs.org](https://nodejs.org/)
-
-**❌ "ModuleNotFoundError: No module named 'torch'"**
-- Make sure venv is activated: `source venv/bin/activate`
-- Install dependencies: `pip install -r requirements.txt`
-
-**❌ Backend running but frontend can't connect**
-- Check if backend is working: Open `http://localhost:8001/api/health`
-- Should return: `{"status": "healthy", "device": "...", "version": "1.0.0"}`
-
-**❌ "Port 3001/8001 already in use"**
-- Close the conflicting application
-- Or let the application suggest an alternative port automatically
-
-**❌ CUDA errors on Windows**
-- Use CPU version instead: `pip install torch --index-url https://download.pytorch.org/whl/cpu`
-
-**❌ AMD GPU not recognized on Windows**
-- AMD ROCm is Linux-only. Use CPU version on Windows
-
-**❌ Apple Silicon performance issues**
-- Make sure you installed native Apple Silicon PyTorch: `pip install torch`
-- Avoid rosetta mode by using ARM64 Python
-
-**❌ Intel GPU not working**
-- Update Intel GPU drivers to latest version
-- Verify XPU support: `python -c "import torch; print(torch.xpu.is_available())"`
-
-**❌ Virtual environment won't activate**
-- Linux/macOS: `chmod +x venv/bin/activate`
-- Windows: Run Command Prompt as Administrator
-
-**❌ Wrong venv location confusion**
-- venv must be in project root (`WarpTorch/venv`)
-- See installation steps above for exact commands
-
-### Getting Help
-
-1. Check the error message in your terminal
-2. Verify you're following the right installation method (A or B)
-3. Make sure venv is activated and you're in the correct folder
-4. Check that Python 3.10+ and Node.js 18+ are installed
-5. Open an issue on GitHub with your error message
+**Features:**
+- Interactive selection menu with arrow keys
+- Batch mode (run all simulations)
+- Real-time progress tracking
+- Automatic JSON export to `output/` directory
+- GPU acceleration detection
 
 ---
 
