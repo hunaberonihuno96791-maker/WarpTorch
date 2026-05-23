@@ -54,6 +54,11 @@ dist/
 *.egg-info/
 .eggs/
 
+# Docusaurus
+docs/build/
+docs/.docusaurus/
+.docusaurus/
+
 # Testing
 .pytest_cache/
 .coverage

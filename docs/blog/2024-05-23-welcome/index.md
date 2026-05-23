@@ -1,7 +1,9 @@
 ---
 slug: welcome
 title: Welcome to WarpTorch Documentation
-authors: [omar]
+authors:
+  - name: Omar
+    title: WarpTorch Developer
 tags: [announcement, warptorch, release]
 ---
 

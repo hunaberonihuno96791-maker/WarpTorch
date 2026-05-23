@@ -99,12 +99,9 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} WarpTorch. Built with Docusaurus.`,
     },
     prism: {
-      theme: {
-        extends: 'githubDark',
-      },
       additionalLanguages: ['python', 'bash', 'typescript', 'javascript'],
     },
-  } satisfies const,
+  },
 };
 
 export default config;
