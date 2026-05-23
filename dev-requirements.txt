@@ -1,5 +1,6 @@
 # WarpTorch Development Dependencies
 # Install: pip install -r dev-requirements.txt
+# Purpose: Interactive development environment for notebooks and testing
 
 # Jupyter Notebook Environment
 jupyterlab>=4.0.0
@@ -9,7 +10,7 @@ ipykernel>=7.0.0
 # Notebook Git Management
 nbstripout>=0.9.0
 
-# Testing & Quality (для будущего)
+# Testing & Quality (commented out for future use)
 # pytest>=7.0.0
 # black>=23.0.0
 # flake8>=6.0.0

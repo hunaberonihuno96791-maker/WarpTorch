@@ -90,29 +90,31 @@ venv\Scripts\activate     # <-- Activate venv in backend\ folder
 **For CPU-only (universal, works everywhere):**
 ```bash
 pip install -r requirements-cpu.txt
+pip install -r requirements.txt      # Base backend dependencies
 ```
 
 **For NVIDIA GPU with CUDA 12.1+ (faster):**
 ```bash
 pip install -r requirements-cuda.txt
+pip install -r requirements.txt      # Base backend dependencies
 ```
 
 **For AMD GPU (ROCm 6.0, Linux only):**
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/rocm6.0
-pip install fastapi uvicorn[standard] pydantic numpy
+pip install -r requirements.txt      # Base backend dependencies
 ```
 
 **For macOS (Apple Silicon M1/M2/M3):**
 ```bash
 pip install torch
-pip install fastapi uvicorn[standard] pydantic numpy
+pip install -r requirements.txt      # Base backend dependencies
 ```
 
 **For Intel GPU (Arc):**
 ```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
-pip install fastapi uvicorn[standard] pydantic numpy
+pip install -r requirements.txt      # Base backend dependencies
 ```
 
 **✅ Verify installation:**
@@ -215,13 +217,23 @@ pip install torch
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
 ```
 
-### Step 4: Install Additional Dependencies
+### Step 4: Install Core Dependencies
 
 ```bash
-pip install -r core/requirements.txt
+pip install -r requirements.txt
 ```
 
-### Step 5: Launch Jupyter
+This installs numpy, plotly, rich, and questionary needed for core functionality.
+
+### Step 5 (Optional): Install Development Environment
+
+```bash
+pip install -r dev-requirements.txt
+```
+
+This installs JupyterLab for interactive notebook editing. Only needed for development.
+
+### Step 6: Launch Jupyter
 
 ```bash
 jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
@@ -277,7 +289,7 @@ pip install torch --index-url https://download.pytorch.org/whl/cu121  # NVIDIA G
 # OR
 pip install torch --index-url https://download.pytorch.org/whl/rocm6.0  # AMD GPU
 
-pip install -r core/requirements.txt
+pip install -r requirements.txt
 jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
 ```
 
@@ -370,6 +382,38 @@ pip install -r backend/requirements-cpu.txt
 ```
 - Works on any computer without GPU
 - Slower but universally compatible
+
+---
+
+## 📦 Requirements Files Overview
+
+**WarpTorch uses separate requirements files for different use cases:**
+
+```
+WarpTorch/
+├── requirements.txt                    # Core dependencies (numpy, plotly, etc.)
+├── dev-requirements.txt                # Development tools (JupyterLab, testing)
+└── backend/
+    ├── requirements.txt                # Base API dependencies
+    ├── requirements-cpu.txt           # PyTorch CPU version
+    └── requirements-cuda.txt          # PyTorch NVIDIA GPU version
+```
+
+### Why Separate Files?
+- **Hardware flexibility:** Choose PyTorch version based on your GPU
+- **Development vs production:** Core dependencies vs development tools
+- **Size optimization:** CPU version (~300MB) vs CUDA version (~2GB)
+
+### File Contents
+- `requirements.txt` (root): numpy, plotly, rich, questionary - **needed for both methods**
+- `dev-requirements.txt`: jupyterlab, ipywidgets, ipykernel - **development only**
+- `backend/requirements.txt`: fastapi, uvicorn, pydantic, numpy - **web API only**
+- `backend/requirements-cpu*.txt`: PyTorch only - **install with base backend requirements**
+
+### Installation Summary
+- **Web Interface:** `backend/requirements*.txt` + `backend/requirements.txt`
+- **Jupyter Notebooks:** PyTorch + `requirements.txt` (+ `dev-requirements.txt` for development)
+- **Core Only:** Just `requirements.txt` for using core modules in your own code
 
 ---
 

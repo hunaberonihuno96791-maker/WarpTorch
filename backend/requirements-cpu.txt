@@ -1,6 +1,6 @@
-# WarpTorch CPU-only Dependencies (lightweight, ~200MB)
+# WarpTorch CPU-only Dependencies for Backend (~200MB)
 # Use for: development, AMD GPUs, Intel GPUs, CPU inference
-# Install: pip install -r requirements-cpu.txt
+# Install: pip install -r requirements-cpu.txt && pip install -r requirements.txt
 
 # Core Tensor Computation (CPU-only)
 # Direct link to CPU wheel to avoid CUDA dependencies
