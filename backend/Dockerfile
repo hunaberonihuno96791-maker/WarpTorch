@@ -16,8 +16,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY backend/requirements.txt .
 COPY backend/requirements-${TORCH_VERSION}.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir --user -r requirements-${TORCH_VERSION}.txt
+# Install Python dependencies in one layer to reduce image size
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -r requirements-${TORCH_VERSION}.txt && \
+    rm -rf /root/.cache/pip
 
 # Stage 2: Runtime
 FROM python:3.12-slim
@@ -33,10 +35,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 
 # Copy Python packages from builder
-COPY --from=builder /root/.local /root/.local
-
-# Make sure scripts in .local are usable
-ENV PATH=/root/.local/bin:$PATH
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy application code
 COPY --chown=appuser:appuser core/ ./core/

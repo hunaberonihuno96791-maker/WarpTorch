@@ -9,7 +9,7 @@ interface AlcubierreWarpBubbleProps {
   sigma: number
 }
 
-function AlcubierreWarpBubble({ data, velocity = 1.5, radius = 6, sigma = 4 }: AlcubierreWarpBubbleProps) {
+function AlcubierreWarpBubble({ data: _data, velocity: _velocity = 1.5, radius = 6, sigma = 4 }: AlcubierreWarpBubbleProps) {
   const meshRef = useRef<THREE.Points>(null)
   const bubbleRef = useRef<THREE.Mesh>(null)
 
@@ -38,7 +38,7 @@ function AlcubierreWarpBubble({ data, velocity = 1.5, radius = 6, sigma = 4 }: A
   }, [])
 
   // Alcubierre warp function
-  const alcubierreMetric = (x: number, y: number, z: number, t: number) => {
+  const alcubierreMetric = (x: number, y: number, z: number, _t: number) => {
     const rs = Math.sqrt(x * x + y * y + z * z)
     const warpFactor = Math.tanh((rs + radius) / sigma) - Math.tanh((rs - radius) / sigma)
     const energyDensity = -(warpFactor * warpFactor) / (2 * sigma * sigma)
@@ -60,7 +60,7 @@ function AlcubierreWarpBubble({ data, velocity = 1.5, radius = 6, sigma = 4 }: A
       // Move warp bubble along x-axis
       const bubbleCenter = (Math.sin(time * 0.2) * 8)
 
-      const { warpFactor, energyDensity, rs } = alcubierreMetric(
+      const { warpFactor, energyDensity, rs: _rs } = alcubierreMetric(
         x - bubbleCenter,
         y,
         z,

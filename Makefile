@@ -1,4 +1,4 @@
-.PHONY: help up down logs restart clean install install-cpu install-cuda detect docker-build docker-build-cpu docker-build-cuda
+.PHONY: help up down logs restart clean install install-cpu install-cuda detect docker-build docker-build-cpu docker-build-cuda use-cpu use-cuda
 
 DOCKER_COMPOSE := $(shell command -v docker-compose >/dev/null 2>&1 && echo "docker-compose" || echo "docker compose")
 
@@ -12,6 +12,10 @@ help:
 	@echo "  make logs    - Смотреть логи"
 	@echo "  make restart - Перезапустить симуляцию"
 	@echo "  make clean   - Полная очистка"
+	@echo ""
+	@echo "PyTorch version switching:"
+	@echo "  make use-cpu  - Switch to CPU version (lightweight, ~200MB)"
+	@echo "  make use-cuda - Switch to CUDA version (large, ~2-5GB)"
 	@echo ""
 	@echo "Hardware detection & installation:"
 	@echo "  make detect         - Detect hardware and show recommended installation"
@@ -82,3 +86,26 @@ docker-build-cpu:
 docker-build-cuda:
 	@echo "🐳 Building CUDA-enabled Docker image..."
 	docker build -f backend/Dockerfile --build-arg TORCH_VERSION=cuda -t warptorch-backend .
+
+# Switch PyTorch version (requires rebuild)
+use-cpu:
+	@echo "🔄 Switching to CPU version..."
+	@echo "TORCH_VERSION=cpu" > .env
+	@echo "FRONTEND_PORT=3001" >> .env
+	@echo "BACKEND_PORT=8001" >> .env
+	@echo "CORS_ORIGINS=http://localhost:3001,http://frontend:3001" >> .env
+	@$(DOCKER_COMPOSE) down
+	@$(DOCKER_COMPOSE) build --no-cache
+	@$(DOCKER_COMPOSE) up -d
+	@echo "\033[32m✓ Switched to CPU version (lightweight, ~200MB)\033[0m"
+
+use-cuda:
+	@echo "🔄 Switching to CUDA version..."
+	@echo "TORCH_VERSION=cuda" > .env
+	@echo "FRONTEND_PORT=3001" >> .env
+	@echo "BACKEND_PORT=8001" >> .env
+	@echo "CORS_ORIGINS=http://localhost:3001,http://frontend:3001" >> .env
+	@$(DOCKER_COMPOSE) down
+	@$(DOCKER_COMPOSE) build --no-cache
+	@$(DOCKER_COMPOSE) up -d
+	@echo "\033[32m✓ Switched to CUDA version (large, ~2-5GB)\033[0m"

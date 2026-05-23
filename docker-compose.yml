@@ -4,13 +4,13 @@ services:
       context: .
       dockerfile: backend/Dockerfile
       args:
-        - TORCH_VERSION=cpu
+        - TORCH_VERSION=${TORCH_VERSION:-cpu}
     container_name: warptorch-backend
     ports:
-      - "8001:8001"
+      - "${BACKEND_PORT:-8001}:8001"
     environment:
       - PYTHONUNBUFFERED=1
-      - CORS_ORIGINS=http://localhost:3001,http://frontend:3001
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3001,http://frontend:3001}
     volumes:
       # Mount core directory for development (comment out for production)
       - ./core:/app/core:ro
@@ -31,7 +31,7 @@ services:
       dockerfile: frontend/Dockerfile
     container_name: warptorch-frontend
     ports:
-      - "3001:3001"
+      - "${FRONTEND_PORT:-3001}:3001"
     depends_on:
       backend:
         condition: service_healthy
