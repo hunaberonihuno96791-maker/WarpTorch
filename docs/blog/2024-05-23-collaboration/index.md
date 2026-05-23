@@ -1,6 +1,6 @@
 ---
 slug: collaboration-guide
-title: Contributing to WarpTorch: A Guide
+title: 'Contributing to WarpTorch: A Guide'
 authors:
   - omar
 tags: [community, contribution, guide]

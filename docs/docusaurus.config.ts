@@ -114,6 +114,13 @@ const config: Config = {
     prism: {
       additionalLanguages: ['python', 'bash', 'typescript', 'javascript'],
     },
+    math: {
+      // KaTeX configuration
+      katex: {
+        version: '0.16.9',
+        strict: false,
+      },
+    },
   },
 };
 

@@ -9,9 +9,21 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Metrics Catalog',
+      items: [
+        'metrics/alcubierre',
+        'metrics/lentz',
+        'metrics/schwarzschild',
+        'metrics/vandenbroeck',
+        'metrics/minkowski',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Core Concepts',
       items: [
         'core-concepts/metrics',
+        'core-concepts/finite-difference',
         'core-concepts/energy-conditions',
         'core-concepts/kinematic-scalars',
       ],
