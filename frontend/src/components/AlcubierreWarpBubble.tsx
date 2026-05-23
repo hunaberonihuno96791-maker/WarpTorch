@@ -10,31 +10,52 @@ interface AlcubierreWarpBubbleProps {
 }
 
 function AlcubierreWarpBubble({ data: _data, velocity: _velocity = 1.5, radius = 6, sigma = 4 }: AlcubierreWarpBubbleProps) {
-  const meshRef = useRef<THREE.Points>(null)
+  const gridRef = useRef<THREE.LineSegments>(null)
   const bubbleRef = useRef<THREE.Mesh>(null)
 
-  // Create particles for spacetime visualization
-  const particles = useMemo(() => {
-    const count = 5000
-    const positions = new Float32Array(count * 3)
-    const colors = new Float32Array(count * 3)
+  // Create lightweight spacetime grid
+  const spacetimeGrid = useMemo(() => {
+    const gridSize = 20
+    const divisions = 8 // Reduced from 20 for better performance
+    const points: number[] = []
 
-    for (let i = 0; i < count; i++) {
-      const x = (Math.random() - 0.5) * 20
-      const y = (Math.random() - 0.5) * 20
-      const z = (Math.random() - 0.5) * 20
-
-      positions[i * 3] = x
-      positions[i * 3 + 1] = y
-      positions[i * 3 + 2] = z
-
-      // Default color
-      colors[i * 3] = 0.3
-      colors[i * 3 + 1] = 0.5
-      colors[i * 3 + 2] = 1.0
+    // Create grid lines along X axis
+    for (let i = 0; i <= divisions; i++) {
+      const z = (i / divisions - 0.5) * gridSize
+      for (let j = 0; j <= divisions; j++) {
+        const y = (j / divisions - 0.5) * gridSize
+        const x1 = -gridSize / 2
+        const x2 = gridSize / 2
+        points.push(x1, y, z, x2, y, z)
+      }
     }
 
-    return { positions, colors }
+    // Create grid lines along Y axis
+    for (let i = 0; i <= divisions; i++) {
+      const z = (i / divisions - 0.5) * gridSize
+      for (let j = 0; j <= divisions; j++) {
+        const x = (j / divisions - 0.5) * gridSize
+        const y1 = -gridSize / 2
+        const y2 = gridSize / 2
+        points.push(x, y1, z, x, y2, z)
+      }
+    }
+
+    // Create grid lines along Z axis
+    for (let i = 0; i <= divisions; i++) {
+      const y = (i / divisions - 0.5) * gridSize
+      for (let j = 0; j <= divisions; j++) {
+        const x = (j / divisions - 0.5) * gridSize
+        const z1 = -gridSize / 2
+        const z2 = gridSize / 2
+        points.push(x, y, z1, x, y, z2)
+      }
+    }
+
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3))
+
+    return { geometry, originalPositions: new Float32Array(points) }
   }, [])
 
   // Alcubierre warp function
@@ -46,43 +67,36 @@ function AlcubierreWarpBubble({ data: _data, velocity: _velocity = 1.5, radius =
   }
 
   useFrame((state) => {
-    if (!meshRef.current) return
+    if (!gridRef.current) return
 
     const time = state.clock.elapsedTime
-    const positions = meshRef.current.geometry.attributes.position.array as Float32Array
-    const colors = meshRef.current.geometry.attributes.color.array as Float32Array
+    const positions = gridRef.current.geometry.attributes.position.array as Float32Array
+    const original = spacetimeGrid.originalPositions
+
+    // Move warp bubble along x-axis
+    const bubbleCenter = Math.sin(time * 0.2) * 8
 
     for (let i = 0; i < positions.length / 3; i++) {
-      const x = positions[i * 3]
-      const y = positions[i * 3 + 1]
-      const z = positions[i * 3 + 2]
+      const origX = original[i * 3]
+      const origY = original[i * 3 + 1]
+      const origZ = original[i * 3 + 2]
 
-      // Move warp bubble along x-axis
-      const bubbleCenter = (Math.sin(time * 0.2) * 8)
-
-      const { warpFactor, energyDensity, rs: _rs } = alcubierreMetric(
-        x - bubbleCenter,
-        y,
-        z,
+      const { warpFactor } = alcubierreMetric(
+        origX - bubbleCenter,
+        origY,
+        origZ,
         time
       )
 
-      // Visualize spacetime distortion
-      const distortion = warpFactor * 0.5
-      positions[i * 3 + 1] = y + Math.sin(x * 0.5 + time) * distortion * 0.3
-      positions[i * 3 + 2] = z + Math.cos(y * 0.5 + time) * distortion * 0.3
-
-      // Color based on energy density
-      const energyIntensity = Math.abs(energyDensity) * 5
-      colors[i * 3] = Math.min(1, energyIntensity) // Red (positive energy)
-      colors[i * 3 + 1] = 0.2
-      colors[i * 3 + 2] = Math.min(1, -energyDensity * 2) // Blue (negative energy)
+      // Apply spacetime distortion to grid
+      const distortion = warpFactor * 0.8
+      positions[i * 3] = origX + distortion * 0.5
+      positions[i * 3 + 1] = origY + Math.sin(origX * 0.3 + time) * distortion * 0.4
+      positions[i * 3 + 2] = origZ + Math.cos(origY * 0.3 + time) * distortion * 0.4
     }
 
-    meshRef.current.geometry.attributes.position.needsUpdate = true
-    meshRef.current.geometry.attributes.color.needsUpdate = true
+    gridRef.current.geometry.attributes.position.needsUpdate = true
 
-    // Rotate bubble
     if (bubbleRef.current) {
       bubbleRef.current.rotation.y = time * 0.1
     }
@@ -90,30 +104,15 @@ function AlcubierreWarpBubble({ data: _data, velocity: _velocity = 1.5, radius =
 
   return (
     <group>
-      {/* Spacetime particles */}
-      <points ref={meshRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={particles.positions.length / 3}
-            array={particles.positions}
-            itemSize={3}
-          />
-          <bufferAttribute
-            attach="attributes-color"
-            count={particles.colors.length / 3}
-            array={particles.colors}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.1}
-          vertexColors
+      {/* Spacetime grid - visualizes distortion */}
+      <lineSegments ref={gridRef} geometry={spacetimeGrid.geometry}>
+        <lineBasicMaterial
+          color="#00aaff"
           transparent
-          opacity={0.8}
-          sizeAttenuation
+          opacity={0.4}
+          linewidth={1}
         />
-      </points>
+      </lineSegments>
 
       {/* Warp bubble boundary */}
       <mesh ref={bubbleRef}>
