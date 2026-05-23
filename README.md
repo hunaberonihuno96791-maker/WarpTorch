@@ -63,57 +63,55 @@ git clone https://github.com/just-omar/WarpTorch.git
 cd WarpTorch
 ```
 
-### Step 2: Backend Setup (Python API)
+### Step 2: Create Virtual Environment (Project Root)
 
-**Navigate to backend directory:**
-
-```bash
-cd backend
-```
-
-**Create virtual environment in backend folder:**
+**Create virtual environment in project root:**
 
 **Linux/macOS:**
 ```bash
+cd WarpTorch
 python3 -m venv venv
-source venv/bin/activate  # <-- Activate venv in backend/ folder
+source venv/bin/activate
 ```
 
 **Windows:**
 ```bash
+cd WarpTorch
 python -m venv venv
-venv\Scripts\activate     # <-- Activate venv in backend\ folder
+venv\Scripts\activate
 ```
+
+### Step 3: Install Dependencies
 
 **Install dependencies based on your hardware:**
 
 **For CPU-only (universal, works everywhere):**
 ```bash
-pip install -r ../requirements.txt
+pip install -r requirements.txt
 ```
 
 **For NVIDIA GPU with CUDA 12.1+ (faster):**
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/cu121
-pip install -r ../requirements.txt
+pip install -r requirements.txt
 ```
 
 **For AMD GPU (ROCm 6.0, Linux only):**
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/rocm6.0
-pip install -r ../requirements.txt
+pip install -r requirements.txt
 ```
 
 **For macOS (Apple Silicon M1/M2/M3):**
 ```bash
 pip install torch
-pip install -r ../requirements.txt
+pip install -r requirements.txt
 ```
 
 **For Intel GPU (Arc):**
 ```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
-pip install -r ../requirements.txt
+pip install -r requirements.txt
 ```
 
 **✅ Verify installation:**
@@ -136,7 +134,7 @@ cd frontend  # From project root
 npm install
 ```
 
-### Step 3: Frontend Setup (React Interface)
+### Step 4: Frontend Setup (React Interface)
 
 **Open a new terminal, navigate to frontend directory:**
 
@@ -152,16 +150,16 @@ npm install
 
 ### Step 4: Run the Application
 
-**Terminal 1 - Start Backend (from backend/ folder with venv active):**
+**Terminal 1 - Start Backend (from project root with venv active):**
 
 ```bash
-# Make sure you're in backend/ folder and venv is activated
-cd backend
+# Make sure you're in WarpTorch/ folder and venv is activated
+cd WarpTorch
 source venv/bin/activate  # Linux/macOS
 # OR
 venv\Scripts\activate     # Windows
 
-python main.py
+python backend/main.py
 ```
 
 Backend will run on: `http://localhost:8001`
@@ -188,20 +186,18 @@ git clone https://github.com/just-omar/WarpTorch.git
 cd WarpTorch
 ```
 
-### Step 2: Create Virtual Environment in Project Root
-
-**Create venv in project root directory:**
+### Step 2: Create Virtual Environment
 
 **Linux/macOS:**
 ```bash
 python3 -m venv venv
-source venv/bin/activate  # <-- Activate venv in project root
+source venv/bin/activate
 ```
 
 **Windows:**
 ```bash
 python -m venv venv
-venv\Scripts\activate     # <-- Activate venv in project root
+venv\Scripts\activate
 ```
 
 ### Step 3: Install PyTorch for Your Hardware
@@ -231,21 +227,15 @@ pip install torch
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
 ```
 
-### Step 4: Install Core Dependencies
+### Step 4: Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-This installs numpy, plotly, rich, and questionary needed for core functionality.
+This installs numpy, plotly, rich, jupyter, and other dependencies.
 
 ### Step 5: Launch Jupyter
-
-```bash
-jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
-```
-
-### Step 6: Launch Jupyter
 
 ```bash
 jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
@@ -261,19 +251,19 @@ jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
 
 **Terminal 1 - Backend:**
 ```bash
-cd WarpTorch/backend
+cd WarpTorch
 python3 -m venv venv
 source venv/bin/activate           # Linux/macOS
 # OR
 venv\Scripts\activate              # Windows
 
 # Choose your hardware version:
-pip install -r ../requirements.txt        # CPU (universal)
+pip install -r requirements.txt            # CPU (universal)
 # OR
 pip install torch --index-url https://download.pytorch.org/whl/cu121  # NVIDIA GPU
-pip install -r ../requirements.txt
+pip install -r requirements.txt
 
-python main.py                     # Runs on http://localhost:8001
+python backend/main.py             # Runs on http://localhost:8001
 ```
 
 **Terminal 2 - Frontend:**
@@ -429,8 +419,8 @@ The default `requirements.txt` installs PyTorch CPU version. For GPU acceleratio
 - Install Node.js 18+ from [nodejs.org](https://nodejs.org/)
 
 **❌ "ModuleNotFoundError: No module named 'torch'"**
-- Make sure venv is activated: `source backend/venv/bin/activate` (or `source venv/bin/activate`)
-- Install dependencies: `pip install -r requirements.txt` (from project root or backend)
+- Make sure venv is activated: `source venv/bin/activate`
+- Install dependencies: `pip install -r requirements.txt`
 
 **❌ Backend running but frontend can't connect**
 - Check if backend is working: Open `http://localhost:8001/api/health`
@@ -459,8 +449,7 @@ The default `requirements.txt` installs PyTorch CPU version. For GPU acceleratio
 - Windows: Run Command Prompt as Administrator
 
 **❌ Wrong venv location confusion**
-- **Web Interface:** venv must be in `backend/` folder
-- **Jupyter Notebooks:** venv must be in project root
+- venv must be in project root (`WarpTorch/venv`)
 - See installation steps above for exact commands
 
 ### Getting Help
