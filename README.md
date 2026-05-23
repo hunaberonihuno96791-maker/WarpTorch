@@ -151,7 +151,7 @@ venv\Scripts\activate     # Windows
 python backend/main.py
 ```
 
-Backend will run on: `http://localhost:8001`
+Backend will run on: `http://localhost:8099`
 
 **Terminal 2 - Start Frontend (from frontend/ folder):**
 
@@ -160,9 +160,9 @@ cd frontend
 npm run dev
 ```
 
-Frontend will run on: `http://localhost:3001`
+Frontend will run on: `http://localhost:3005`
 
-**Open your browser to:** `http://localhost:3001`
+**Open your browser to:** `http://localhost:3005`
 
 ---
 
@@ -189,12 +189,12 @@ jupyter lab
 # Terminal 1 - Backend
 cd WarpTorch
 source venv/bin/activate           # Linux/macOS
-python backend/main.py             # Runs on http://localhost:8001
+python backend/main.py             # Runs on http://localhost:8099
 
-# Terminal 2 - Frontend  
+# Terminal 2 - Frontend
 cd WarpTorch/frontend
 npm install
-npm run dev                        # Runs on http://localhost:3001
+npm run dev                        # Runs on http://localhost:3005
 ```
 
 **For Jupyter Lab:**
@@ -339,9 +339,9 @@ make use-cuda  # Switch to CUDA version (large, ~2-5GB)
 ```
 
 **Services will run on:**
-- Frontend: `http://localhost:3001`
-- Backend: `http://localhost:8001`
-- API Docs: `http://localhost:8001/docs`
+- Frontend: `http://localhost:3005`
+- Backend: `http://localhost:8099`
+- API Docs: `http://localhost:8099/docs`
 
 **⚠️ Note:** Native installation (Methods A & B above) is recommended for most users - simpler setup and better performance.
 

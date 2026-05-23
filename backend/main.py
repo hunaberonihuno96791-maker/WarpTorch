@@ -20,7 +20,7 @@ from core.utils import get_best_device
 app = FastAPI(title="WarpTorch API")
 
 # CORS configuration
-cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:3001").split(",")
+cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:3005").split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
@@ -138,5 +138,5 @@ async def get_metrics():
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.getenv("BACKEND_PORT", "8001"))
+    port = int(os.getenv("BACKEND_PORT", "8099"))
     uvicorn.run(app, host="0.0.0.0", port=port)

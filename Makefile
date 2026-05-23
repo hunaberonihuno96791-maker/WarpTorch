@@ -7,8 +7,8 @@ ifneq (,$(wildcard ./.env))
 endif
 
 # Set default values if not defined in .env
-FRONTEND_PORT ?= 3001
-BACKEND_PORT ?= 8001
+FRONTEND_PORT ?= 3005
+BACKEND_PORT ?= 8099
 
 DOCKER_COMPOSE := $(shell command -v docker-compose >/dev/null 2>&1 && echo "docker-compose" || echo "docker compose")
 

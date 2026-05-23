@@ -7,10 +7,10 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
-      port: parseInt(env.VITE_FRONTEND_PORT || '3001'),
+      port: parseInt(env.VITE_FRONTEND_PORT || '3005'),
       proxy: {
         '/api': {
-          target: `http://localhost:${env.VITE_BACKEND_PORT || '8001'}`,
+          target: `http://localhost:${env.VITE_BACKEND_PORT || '8099'}`,
           changeOrigin: true
         }
       }

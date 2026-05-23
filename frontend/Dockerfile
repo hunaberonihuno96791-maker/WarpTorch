@@ -3,8 +3,8 @@
 FROM node:20-alpine AS builder
 
 # Build arguments
-ARG FRONTEND_PORT=3001
-ARG BACKEND_PORT=8001
+ARG FRONTEND_PORT=3005
+ARG BACKEND_PORT=8099
 
 WORKDIR /app
 
@@ -45,11 +45,11 @@ COPY --from=builder --chown=nginx-app:nginx-app /app/dist /usr/share/nginx/html
 USER nginx-app
 
 # Expose port
-EXPOSE 3001
+EXPOSE 3005
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:3001/ || exit 1
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3005/ || exit 1
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
