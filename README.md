@@ -46,8 +46,8 @@ npm --version
 
 Choose your installation method based on how you plan to use WarpTorch:
 
-- **🎯 Method A: Web Interface** - Interactive 3D visualization in your browser (recommended for beginners)
-- **🔬 Method B: Jupyter Notebooks** - Direct Python programming for custom analysis (recommended for researchers)
+- **🎯 Method A: Web Interface** - Interactive 3D visualization in your browser 
+- **🔬 Method B: Jupyter Lab** - Direct Python programming for custom analysis 
 
 Both methods require the same initial setup steps below.
 
@@ -111,9 +111,9 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 pip install -r requirements.txt
 ```
 
-This installs numpy, plotly, rich, jupyter, fastapi, and other dependencies.
+This installs numpy, plotly, rich, jupyterlab, fastapi, and other dependencies.
 
-**✅ Verify installation:**
+**✅ Verify torch installation:**
 ```bash
 python -c "import torch; print(f'PyTorch {torch.__version__} installed successfully')"
 python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
@@ -127,15 +127,12 @@ After completing Initial Setup, continue with these steps:
 
 ### Step 5: Frontend Setup
 
-**Open a new terminal, navigate to frontend directory:**
-
-```bash
-cd frontend  # From project root
-```
 
 **Install Node.js dependencies:**
 
 ```bash
+cd frontend  # From project root
+
 npm install
 ```
 
@@ -146,9 +143,10 @@ npm install
 ```bash
 # Make sure you're in WarpTorch/ folder and venv is activated
 cd WarpTorch
-source venv/bin/activate  # Linux/macOS
-# OR
 venv\Scripts\activate     # Windows
+
+# source venv/bin/activate  # Linux/macOS
+
 
 python backend/main.py
 ```
@@ -168,15 +166,18 @@ Frontend will run on: `http://localhost:3001`
 
 ---
 
-## 🔬 Method B: Jupyter Notebooks Installation
+## 🔬 Method B: Jupyter Lab Installation
 
-After completing Initial Setup, simply launch Jupyter:
+After completing Initial Setup, simply launch Jupyter Lab:
 
-### Step 5: Launch Jupyter
+### Step 5: Launch Jupyter Lab
 
 ```bash
-jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
+jupyter lab
 ```
+
+**Jupyter Lab will automatically open in your browser at:** `http://localhost:8888`
+
 
 ---
 
@@ -196,14 +197,15 @@ npm install
 npm run dev                        # Runs on http://localhost:3001
 ```
 
-**For Jupyter Notebooks:**
+**For Jupyter Lab:**
 
 ```bash
 cd WarpTorch
 source venv/bin/activate           # Linux/macOS
-jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
+jupyter lab                         # Opens at http://localhost:8888
 
-# http://localhost:8888
+# Or open specific notebook:
+jupyter lab jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
 ```
 
 ---
