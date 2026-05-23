@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import torch
 import numpy as np
 import sys
 import os
@@ -76,8 +75,8 @@ async def simulate_alcubierre(params: AlcubierreParams):
         # Get 2D slice for visualization
         t00_slice = get_2d_slice(energy_tensor, component=(0, 0), slice_plane='xy')
 
-        # Convert to numpy for transmission
-        t00_numpy = t00_slice.cpu().numpy()
+        # get_2d_slice already returns numpy array, so we use it directly
+        t00_numpy = t00_slice
 
         # Compute statistics
         energy_stats = {
@@ -93,7 +92,7 @@ async def simulate_alcubierre(params: AlcubierreParams):
 
         return {
             "success": True,
-            "params": params.dict(),
+            "params": params.model_dump(),
             "statistics": energy_stats,
             "grid_size": list(t00_numpy.shape),
             "data": sampled_data,

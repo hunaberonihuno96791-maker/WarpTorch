@@ -29,8 +29,8 @@ def get_2d_slice(
     """
     mu, nu = component
     tensor = metric.tensor[mu, nu, t_index] # Shape: (X, Y, Z)
-    
-    T, X, Y, Z = metric.grid_size
+
+    _, X, Y, Z = metric.grid_size
     
     if slice_plane == 'xy':
         idx = z_index if z_index is not None else Z // 2
@@ -44,6 +44,11 @@ def get_2d_slice(
     else:
         raise ValueError("slice_plane must be 'xy', 'xz', or 'yz'")
         
-    # Detach from GPU, convert to float32 for lighter memory footprint, and cast to numpy
+    # Handle both torch.Tensor and numpy.ndarray inputs
     #
-    return slice_data.detach().cpu().to(torch.float32).numpy()
+    if isinstance(slice_data, torch.Tensor):
+        return slice_data.detach().cpu().to(torch.float32).numpy()
+    elif isinstance(slice_data, np.ndarray):
+        return slice_data.astype(np.float32)
+    else:
+        raise TypeError(f"Expected torch.Tensor or numpy.ndarray, got {type(slice_data)}")
