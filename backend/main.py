@@ -4,6 +4,10 @@ from pydantic import BaseModel
 import numpy as np
 import sys
 import os
+from dotenv import load_dotenv
+
+# Load .env from parent directory (project root)
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
 # Add parent directory to path for WarpTorch module imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

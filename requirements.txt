@@ -17,6 +17,7 @@ questionary
 fastapi
 uvicorn[standard]
 pydantic
+python-dotenv
 
 # Development
 jupyterlab>=4.0.0
