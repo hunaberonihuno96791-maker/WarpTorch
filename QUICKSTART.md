@@ -23,37 +23,74 @@ npm --version
 - **Python 3.10+** → [python.org](https://www.python.org/downloads/)
 - **Node.js 18+** → [nodejs.org](https://nodejs.org/)
 
-**🔍 Want detailed system verification?** See [`CHECK_SYSTEM.md`](CHECK_SYSTEM.md)
+**🔍 Want detailed system verification?** Read the Prerequisites section carefully
 
 **System Requirements:**
 - **4 GB RAM** (8 GB recommended)
 - **2 GB disk space**
 - *GPU optional — works on any laptop*
 
+**🎮 Supported GPUs:**
+- **NVIDIA** (CUDA) - fastest, all platforms
+- **AMD** (ROCm) - Linux only
+- **Apple Silicon** (M1/M2/M3) - macOS only
+- **Intel Arc** - Windows/Linux
+- **CPU** - universal, slower
+
 ## Choose Your Setup Method
 
-### Method 1: Native (Recommended - No Docker)
+### Method 1: Web Interface (Recommended - Native)
 *Works on Windows, macOS, Linux*
+
+**📍 IMPORTANT: Activate venv in the correct folder!**
 
 **Terminal/Command Prompt 1 - Backend:**
 ```bash
+# Navigate to backend folder FIRST
 cd backend
+
+# Create venv in backend folder
 python3 -m venv venv
-source venv/bin/activate       # Linux/macOS
+source venv/bin/activate       # Linux/macOS - activates backend/venv
 # OR
-venv\Scripts\activate          # Windows
+venv\Scripts\activate          # Windows - activates backend\venv
+
+# Install dependencies
+# For CPU (works everywhere):
 pip install -r requirements-cpu.txt
-python main.py
+
+# OR for NVIDIA GPU (faster):
+pip install -r requirements-cuda.txt
+
+# OR for AMD GPU (Linux):
+pip install torch --index-url https://download.pytorch.org/whl/rocm6.0
+pip install fastapi uvicorn[standard] pydantic numpy
+
+# OR for Apple Silicon:
+pip install torch
+pip install fastapi uvicorn[standard] pydantic numpy
+
+# OR for Intel GPU:
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
+pip install fastapi uvicorn[standard] pydantic numpy
+
+# Start backend server
+python main.py                 # Runs on http://localhost:8001
 ```
 
 **Terminal/Command Prompt 2 - Frontend:**
 ```bash
+# Navigate to frontend folder
 cd frontend
+
+# Install and start frontend
 npm install
-npm run dev
+npm run dev                    # Runs on http://localhost:3001
 ```
 
 Then open `http://localhost:3001` in your browser.
+
+**⚠️ Remember:** Always activate venv from the `backend/` folder when running the backend!
 
 ### Method 2: Docker (If You Have Docker)
 ```bash
@@ -93,8 +130,14 @@ The script will suggest an alternative port automatically.
 **❌ Backend running but frontend can't connect**
 Check `http://localhost:8001/api/health` - if this works, the issue is with frontend setup.
 
+**❌ GPU not recognized**
+- NVIDIA: Install CUDA 12.1+ drivers
+- AMD: Use Linux, ROCm is Linux-only
+- Intel: Update Intel GPU drivers
+- Mac: Make sure you have ARM64 Python
+
 **❌ Need more help?**
-See [`RUN_WITHOUT_DOCKER.md`](RUN_WITHOUT_DOCKER.md) for detailed instructions.
+Read the main [`README.md`](README.md) for detailed installation instructions.
 
 ## Next Steps
 
@@ -124,7 +167,5 @@ pip install -r backend/requirements.txt
 ---
 
 **Full Documentation:** [`README.md`](README.md)
-
-**Detailed Setup Guide:** [`RUN_WITHOUT_DOCKER.md`](RUN_WITHOUT_DOCKER.md)
 
 **Questions?** Open an issue on GitHub!

@@ -44,81 +44,246 @@ npm --version
 
 ## ⚙️ Installation & Setup
 
-Follow these steps to isolate environment dependencies and configure hardware-accelerated tensor computations.
+Choose your installation method based on how you plan to use WarpTorch:
 
-### 1. Clone the Repository
+### 🎯 Method A: Web Interface (Recommended for beginners)
+Interactive 3D visualization in your browser with easy parameter controls.
+
+### 🔬 Method B: Jupyter Notebooks (Recommended for researchers)
+Direct Python programming in notebooks for custom analysis and experiments.
+
+---
+
+## 🎯 Method A: Web Interface Installation
+
+### Step 1: Clone and Navigate to Project
 
 ```bash
-git clone https://github.com/yourusername/WarpTorch.git
+git clone https://github.com/just-omar/WarpTorch.git
 cd WarpTorch
 ```
 
-### 2. Create and Activate a Virtual Environment
+### Step 2: Backend Setup (Python API)
 
-#### On Linux/macOS
+**Navigate to backend directory:**
 
+```bash
+cd backend
+```
+
+**Create virtual environment in backend folder:**
+
+**Linux/macOS:**
 ```bash
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # <-- Activate venv in backend/ folder
 ```
 
-#### On Windows
-
+**Windows:**
 ```bash
 python -m venv venv
-venv\Scripts\activate
+venv\Scripts\activate     # <-- Activate venv in backend\ folder
 ```
 
-### 3. Install Dependencies
+**Install dependencies based on your hardware:**
 
-To execute computations on your specific hardware, install the appropriate PyTorch build before installing ecosystem utilities.
-
-#### For NVIDIA GPUs (CUDA 12.1) (Recommended)
-
+**For CPU-only (universal, works everywhere):**
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/cu121
-pip install -r core/requirements.txt
+pip install -r requirements-cpu.txt
 ```
 
-#### For AMD GPUs (ROCm 6.0)
+**For NVIDIA GPU with CUDA 12.1+ (faster):**
+```bash
+pip install -r requirements-cuda.txt
+```
 
+**For AMD GPU (ROCm 6.0, Linux only):**
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/rocm6.0
-pip install -r core/requirements.txt
+pip install fastapi uvicorn[standard] pydantic numpy
 ```
 
-#### For macOS (Apple Silicon / MPS)
-
+**For macOS (Apple Silicon M1/M2/M3):**
 ```bash
 pip install torch
-pip install -r core/requirements.txt
+pip install fastapi uvicorn[standard] pydantic numpy
 ```
 
-#### For Intel GPUs (XPU)
-
+**For Intel GPU (Arc):**
 ```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
+pip install fastapi uvicorn[standard] pydantic numpy
+```
+
+**✅ Verify installation:**
+```bash
+python -c "import torch; print(f'PyTorch {torch.__version__} installed successfully')"
+```
+
+### Step 3: Frontend Setup (React Interface)
+
+**Open a new terminal, navigate to frontend directory:**
+
+```bash
+cd frontend  # From project root
+```
+
+**Install Node.js dependencies:**
+
+```bash
+npm install
+```
+
+### Step 4: Run the Application
+
+**Terminal 1 - Start Backend (from backend/ folder with venv active):**
+
+```bash
+# Make sure you're in backend/ folder and venv is activated
+cd backend
+source venv/bin/activate  # Linux/macOS
+# OR
+venv\Scripts\activate     # Windows
+
+python main.py
+```
+
+Backend will run on: `http://localhost:8001`
+
+**Terminal 2 - Start Frontend (from frontend/ folder):**
+
+```bash
+cd frontend
+npm run dev
+```
+
+Frontend will run on: `http://localhost:3001`
+
+**Open your browser to:** `http://localhost:3001`
+
+---
+
+## 🔬 Method B: Jupyter Notebooks Installation
+
+### Step 1: Clone and Navigate to Project
+
+```bash
+git clone https://github.com/just-omar/WarpTorch.git
+cd WarpTorch
+```
+
+### Step 2: Create Virtual Environment in Project Root
+
+**Create venv in project root directory:**
+
+**Linux/macOS:**
+```bash
+python3 -m venv venv
+source venv/bin/activate  # <-- Activate venv in project root
+```
+
+**Windows:**
+```bash
+python -m venv venv
+venv\Scripts\activate     # <-- Activate venv in project root
+```
+
+### Step 3: Install PyTorch for Your Hardware
+
+**For CPU-only (universal compatibility):**
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+```
+
+**For NVIDIA GPU with CUDA 12.1 (recommended for GPU users):**
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cu121
+```
+
+**For AMD GPU with ROCm 6.0 (Linux only):**
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/rocm6.0
+```
+
+**For macOS (Apple Silicon):**
+```bash
+pip install torch
+```
+
+**For Intel GPU:**
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
+```
+
+### Step 4: Install Additional Dependencies
+
+```bash
 pip install -r core/requirements.txt
 ```
 
-#### For CPU-Only Evaluation
+### Step 5: Launch Jupyter
 
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/cpu
-pip install -r core/requirements.txt
+jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
 ```
 
 ---
 
 ## 🚀 Quickstart
 
-You can check your installation and compute your first superluminal warp drive by launching the Alcubierre diagnostic suite.
+### For Web Interface Users:
 
-Open your environment terminal or Jupyter IDE and run:
+**🚀 Super Quick (2 terminal windows):**
+
+**Terminal 1 - Backend:**
+```bash
+cd WarpTorch/backend
+python3 -m venv venv
+source venv/bin/activate           # Linux/macOS
+# OR
+venv\Scripts\activate              # Windows
+
+# Choose your hardware version:
+pip install -r requirements-cpu.txt    # CPU (universal)
+# OR
+pip install -r requirements-cuda.txt   # NVIDIA GPU
+# OR
+pip install torch --index-url https://download.pytorch.org/whl/rocm6.0  # AMD GPU
+pip install fastapi uvicorn[standard] pydantic numpy
+
+python main.py                     # Runs on http://localhost:8001
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd WarpTorch/frontend
+npm install
+npm run dev                        # Runs on http://localhost:3001
+```
+
+**Open browser:** `http://localhost:3001`
+
+### For Jupyter Notebook Users:
 
 ```bash
+cd WarpTorch
+python3 -m venv venv
+source venv/bin/activate           # Linux/macOS
+
+# Choose your hardware version:
+pip install torch --index-url https://download.pytorch.org/whl/cpu  # CPU
+# OR
+pip install torch --index-url https://download.pytorch.org/whl/cu121  # NVIDIA GPU
+# OR
+pip install torch --index-url https://download.pytorch.org/whl/rocm6.0  # AMD GPU
+
+pip install -r core/requirements.txt
 jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
 ```
+
+---
+
+## 💡 Usage Examples
 
 ### Programmatic Usage Example
 
@@ -152,9 +317,121 @@ print("Simulation successful! Active device:", energy_tensor.device)
 
 ---
 
-## 🐳 Docker-Quickstart (Recommended for easy setup)
+## 🎮 Hardware Acceleration Guide
 
-If you have Docker installed, you can run the entire stack with a single command:
+**WarpTorch automatically adapts to your available hardware:**
+
+### Supported GPU Configurations
+
+| GPU Type | Support Level | Performance | Platform |
+|----------|---------------|-------------|----------|
+| **NVIDIA (CUDA 12.1+)** | ✅ Best | 10-100x faster | Win/Linux/Mac |
+| **AMD (ROCm 6.0)** | ✅ Good | 5-50x faster | Linux only |
+| **Apple Silicon** | ✅ Good | 3-20x faster | macOS only |
+| **Intel Arc** | ⚠️ Experimental | 2-10x faster | Win/Linux |
+| **CPU-only** | ✅ Universal | Baseline | All platforms |
+
+### Choosing Your Version
+
+**For maximum performance (NVIDIA GPU):**
+```bash
+pip install -r backend/requirements-cuda.txt
+```
+- Requires: NVIDIA GPU + CUDA 12.1+ drivers
+- Check with: `nvidia-smi` command
+
+**For Linux users with AMD GPU:**
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/rocm6.0
+pip install fastapi uvicorn[standard] pydantic numpy
+```
+- Requires: AMD GPU + ROCm 6.0 drivers
+- Check with: `rocm-smi` command
+
+**For Mac users (Apple Silicon M1/M2/M3):**
+```bash
+pip install torch
+pip install fastapi uvicorn[standard] pydantic numpy
+```
+- Uses Metal Performance Shaders (MPS) automatically
+- Check with: `python -c "import torch; print(torch.backends.mps.is_available())"`
+
+**For Windows Intel GPU users:**
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
+pip install fastapi uvicorn[standard] pydantic numpy
+```
+- Requires: Latest Intel GPU drivers
+- Check with: `python -c "import torch; print(torch.xpu.is_available())"`
+
+**For everyone else (CPU):**
+```bash
+pip install -r backend/requirements-cpu.txt
+```
+- Works on any computer without GPU
+- Slower but universally compatible
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues and Solutions
+
+**❌ "python: command not found"**
+- Install Python 3.10+ from [python.org](https://www.python.org/downloads/)
+- Windows: During installation, check "Add Python to PATH"
+
+**❌ "npm: command not found"**
+- Install Node.js 18+ from [nodejs.org](https://nodejs.org/)
+
+**❌ "ModuleNotFoundError: No module named 'torch'"**
+- Make sure venv is activated: `source backend/venv/bin/activate`
+- Install dependencies: `pip install -r backend/requirements-cpu.txt`
+
+**❌ Backend running but frontend can't connect**
+- Check if backend is working: Open `http://localhost:8001/api/health`
+- Should return: `{"status": "healthy", "device": "...", "version": "1.0.0"}`
+
+**❌ "Port 3001/8001 already in use"**
+- Close the conflicting application
+- Or let the application suggest an alternative port automatically
+
+**❌ CUDA errors on Windows**
+- Use CPU version instead: `pip install -r backend/requirements-cpu.txt`
+
+**❌ AMD GPU not recognized on Windows**
+- AMD ROCm is Linux-only. Use CPU version on Windows: `pip install -r backend/requirements-cpu.txt`
+
+**❌ Apple Silicon performance issues**
+- Make sure you installed native Apple Silicon PyTorch: `pip install torch`
+- Avoid rosetta mode by using ARM64 Python
+
+**❌ Intel GPU not working**
+- Update Intel GPU drivers to latest version
+- Verify XPU support: `python -c "import torch; print(torch.xpu.is_available())"`
+
+**❌ Virtual environment won't activate**
+- Linux/macOS: `chmod +x backend/venv/bin/activate`
+- Windows: Run Command Prompt as Administrator
+
+**❌ Wrong venv location confusion**
+- **Web Interface:** venv must be in `backend/` folder
+- **Jupyter Notebooks:** venv must be in project root
+- See installation steps above for exact commands
+
+### Getting Help
+
+1. Check the error message in your terminal
+2. Verify you're following the right installation method (A or B)
+3. Make sure venv is activated and you're in the correct folder
+4. Check that Python 3.10+ and Node.js 18+ are installed
+5. Open an issue on GitHub with your error message
+
+---
+
+## 🐳 Docker Alternative (Optional)
+
+**If you prefer Docker over native installation:**
 
 ```bash
 docker-compose up --build
@@ -162,70 +439,12 @@ docker-compose up --build
 
 This will start both the backend API (`http://localhost:8001`) and frontend UI (`http://localhost:3001`).
 
-**For different hardware configurations:**
+**Hardware configurations:**
 - CPU-only (default): `docker-compose up --build`
 - NVIDIA CUDA: `TORCH_VERSION=cuda docker-compose up --build`
 - AMD ROCm: `TORCH_VERSION=rocm docker-compose up --build`
 
----
-
-## 💻 Running Without Docker
-
-**Don't have Docker or prefer native execution?** No problem!
-
-WarpTorch can be run directly on your system using Python and Node.js:
-
-### Quick Start
-
-**Open two terminals:**
-
-**Terminal 1 - Backend:**
-```bash
-cd backend
-python3 -m venv venv
-source venv/bin/activate  # Linux/macOS
-# OR
-venv\Scripts\activate     # Windows
-pip install -r requirements-cpu.txt
-python main.py
-```
-
-**Terminal 2 - Frontend:**
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Then open `http://localhost:3001` in your browser.
-
-### Detailed Setup
-
-See [`RUN_WITHOUT_DOCKER.md`](RUN_WITHOUT_DOCKER.md) for detailed instructions on:
-- Manual Python virtual environment setup
-- Different PyTorch hardware configurations (CPU, CUDA, ROCm, etc.)
-- Troubleshooting common issues
-- Jupyter notebook usage
-
-**Key advantages of running without Docker:**
-- Works on any system with Python 3.10+ and Node.js 18+
-- No Linux required — runs on Windows, macOS, and Linux
-- Easier debugging and development
-- Direct access to Python environment for custom experiments
-
----
-
-## 🛠️ Requirements Content (`core/requirements.txt`)
-
-Ensure your `core/requirements.txt` file contains the following configurations to support visualization and notebook hosting:
-
-```text
-numpy>=1.22.0
-plotly>=5.0.0
-plotly-express>=0.4.1
-notebook>=6.4.0
-ipywidgets>=7.6.0
-```
+**⚠️ Note:** Native installation (Methods A & B above) is recommended for most users - simpler setup and better performance.
 
 ---
 
