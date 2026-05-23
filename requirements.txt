@@ -1,6 +1,6 @@
-# WarpTorch Core Dependencies (CPU-only by default)
+# WarpTorch - All Dependencies
 # Install: pip install -r requirements.txt
-# For NVIDIA CUDA: pip install -r backend/requirements-cuda.txt
+# For NVIDIA CUDA: pip install torch (without version)
 
 # Core Tensor Computation (CPU-only - fast install)
 # Note: Using specific version with == for CPU builds. To upgrade, change version manually.
@@ -14,3 +14,14 @@ plotly>=5.18.0
 
 rich
 questionary
+
+# Backend
+fastapi
+uvicorn[standard]
+pydantic
+
+# Development
+jupyterlab>=4.0.0
+ipywidgets>=8.1.0
+ipykernel>=7.0.0
+nbstripout>=0.9.0

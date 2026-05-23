@@ -1,7 +1,0 @@
-# WarpTorch CPU-only Dependencies for Backend (~200MB)
-# Use for: development, AMD GPUs, Intel GPUs, CPU inference
-# Install: pip install -r requirements-cpu.txt && pip install -r requirements.txt
-
-# Core Tensor Computation (CPU-only)
-# Direct link to CPU wheel to avoid CUDA dependencies
-torch @ https://download.pytorch.org/whl/cpu/torch-2.2.0%2Bcpu-cp312-cp312-linux_x86_64.whl

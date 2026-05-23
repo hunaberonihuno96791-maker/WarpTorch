@@ -13,12 +13,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
-COPY backend/requirements.txt .
-COPY backend/requirements-${TORCH_VERSION}.txt .
+COPY requirements.txt .
 
-# Install Python dependencies in one layer to reduce image size
+# Install PyTorch based on TORCH_VERSION argument
+RUN if [ "${TORCH_VERSION}" = "cuda" ]; then \
+        pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cu121; \
+    elif [ "${TORCH_VERSION}" = "rocm" ]; then \
+        pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/rocm6.0; \
+    else \
+        pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu; \
+    fi
+
+# Install other Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir -r requirements-${TORCH_VERSION}.txt && \
     rm -rf /root/.cache/pip
 
 # Stage 2: Runtime

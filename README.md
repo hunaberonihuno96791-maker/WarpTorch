@@ -89,37 +89,51 @@ venv\Scripts\activate     # <-- Activate venv in backend\ folder
 
 **For CPU-only (universal, works everywhere):**
 ```bash
-pip install -r requirements-cpu.txt
-pip install -r requirements.txt      # Base backend dependencies
+pip install -r ../requirements.txt
 ```
 
 **For NVIDIA GPU with CUDA 12.1+ (faster):**
 ```bash
-pip install -r requirements-cuda.txt
-pip install -r requirements.txt      # Base backend dependencies
+pip install torch --index-url https://download.pytorch.org/whl/cu121
+pip install -r ../requirements.txt
 ```
 
 **For AMD GPU (ROCm 6.0, Linux only):**
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/rocm6.0
-pip install -r requirements.txt      # Base backend dependencies
+pip install -r ../requirements.txt
 ```
 
 **For macOS (Apple Silicon M1/M2/M3):**
 ```bash
 pip install torch
-pip install -r requirements.txt      # Base backend dependencies
+pip install -r ../requirements.txt
 ```
 
 **For Intel GPU (Arc):**
 ```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu
-pip install -r requirements.txt      # Base backend dependencies
+pip install -r ../requirements.txt
 ```
 
 **✅ Verify installation:**
 ```bash
 python -c "import torch; print(f'PyTorch {torch.__version__} installed successfully')"
+python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
+```
+
+### Step 4: Frontend Setup (React Interface)
+
+**Open a new terminal, navigate to frontend directory:**
+
+```bash
+cd frontend  # From project root
+```
+
+**Install Node.js dependencies:**
+
+```bash
+npm install
 ```
 
 ### Step 3: Frontend Setup (React Interface)
@@ -225,13 +239,11 @@ pip install -r requirements.txt
 
 This installs numpy, plotly, rich, and questionary needed for core functionality.
 
-### Step 5 (Optional): Install Development Environment
+### Step 5: Launch Jupyter
 
 ```bash
-pip install -r dev-requirements.txt
+jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
 ```
-
-This installs JupyterLab for interactive notebook editing. Only needed for development.
 
 ### Step 6: Launch Jupyter
 
@@ -256,12 +268,10 @@ source venv/bin/activate           # Linux/macOS
 venv\Scripts\activate              # Windows
 
 # Choose your hardware version:
-pip install -r requirements-cpu.txt    # CPU (universal)
+pip install -r ../requirements.txt        # CPU (universal)
 # OR
-pip install -r requirements-cuda.txt   # NVIDIA GPU
-# OR
-pip install torch --index-url https://download.pytorch.org/whl/rocm6.0  # AMD GPU
-pip install fastapi uvicorn[standard] pydantic numpy
+pip install torch --index-url https://download.pytorch.org/whl/cu121  # NVIDIA GPU
+pip install -r ../requirements.txt
 
 python main.py                     # Runs on http://localhost:8001
 ```
@@ -283,13 +293,11 @@ python3 -m venv venv
 source venv/bin/activate           # Linux/macOS
 
 # Choose your hardware version:
-pip install torch --index-url https://download.pytorch.org/whl/cpu  # CPU
+pip install -r requirements.txt            # CPU
 # OR
 pip install torch --index-url https://download.pytorch.org/whl/cu121  # NVIDIA GPU
-# OR
-pip install torch --index-url https://download.pytorch.org/whl/rocm6.0  # AMD GPU
-
 pip install -r requirements.txt
+
 jupyter notebook jupyter_notebooks/01_alcubierre_bubble_analysis.ipynb
 ```
 
@@ -385,35 +393,27 @@ pip install -r backend/requirements-cpu.txt
 
 ---
 
-## 📦 Requirements Files Overview
+## 📦 Requirements File Overview
 
-**WarpTorch uses separate requirements files for different use cases:**
+**WarpTorch uses a unified requirements.txt file for all dependencies:**
 
 ```
 WarpTorch/
-├── requirements.txt                    # Core dependencies (numpy, plotly, etc.)
-├── dev-requirements.txt                # Development tools (JupyterLab, testing)
-└── backend/
-    ├── requirements.txt                # Base API dependencies
-    ├── requirements-cpu.txt           # PyTorch CPU version
-    └── requirements-cuda.txt          # PyTorch NVIDIA GPU version
+└── requirements.txt                    # All dependencies (torch CPU, fastapi, jupyter, etc.)
 ```
 
-### Why Separate Files?
-- **Hardware flexibility:** Choose PyTorch version based on your GPU
-- **Development vs production:** Core dependencies vs development tools
-- **Size optimization:** CPU version (~300MB) vs CUDA version (~2GB)
+### What's Included
+- **Core**: torch (CPU by default), numpy, plotly, rich, questionary
+- **Backend**: fastapi, uvicorn, pydantic
+- **Development**: jupyterlab, ipywidgets, ipykernel, nbstripout
 
-### File Contents
-- `requirements.txt` (root): numpy, plotly, rich, questionary - **needed for both methods**
-- `dev-requirements.txt`: jupyterlab, ipywidgets, ipykernel - **development only**
-- `backend/requirements.txt`: fastapi, uvicorn, pydantic, numpy - **web API only**
-- `backend/requirements-cpu*.txt`: PyTorch only - **install with base backend requirements**
+### Hardware-Specific PyTorch Installation
+The default `requirements.txt` installs PyTorch CPU version. For GPU acceleration, install PyTorch separately before running `pip install -r requirements.txt`:
 
-### Installation Summary
-- **Web Interface:** `backend/requirements*.txt` + `backend/requirements.txt`
-- **Jupyter Notebooks:** PyTorch + `requirements.txt` (+ `dev-requirements.txt` for development)
-- **Core Only:** Just `requirements.txt` for using core modules in your own code
+- **NVIDIA GPU**: `pip install torch --index-url https://download.pytorch.org/whl/cu121`
+- **AMD GPU**: `pip install torch --index-url https://download.pytorch.org/whl/rocm6.0`
+- **Apple Silicon**: `pip install torch` (uses MPS automatically)
+- **Intel GPU**: `pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/xpu`
 
 ---
 
@@ -429,8 +429,8 @@ WarpTorch/
 - Install Node.js 18+ from [nodejs.org](https://nodejs.org/)
 
 **❌ "ModuleNotFoundError: No module named 'torch'"**
-- Make sure venv is activated: `source backend/venv/bin/activate`
-- Install dependencies: `pip install -r backend/requirements-cpu.txt`
+- Make sure venv is activated: `source backend/venv/bin/activate` (or `source venv/bin/activate`)
+- Install dependencies: `pip install -r requirements.txt` (from project root or backend)
 
 **❌ Backend running but frontend can't connect**
 - Check if backend is working: Open `http://localhost:8001/api/health`
@@ -441,10 +441,10 @@ WarpTorch/
 - Or let the application suggest an alternative port automatically
 
 **❌ CUDA errors on Windows**
-- Use CPU version instead: `pip install -r backend/requirements-cpu.txt`
+- Use CPU version instead: `pip install -r requirements.txt`
 
 **❌ AMD GPU not recognized on Windows**
-- AMD ROCm is Linux-only. Use CPU version on Windows: `pip install -r backend/requirements-cpu.txt`
+- AMD ROCm is Linux-only. Use CPU version on Windows: `pip install -r requirements.txt`
 
 **❌ Apple Silicon performance issues**
 - Make sure you installed native Apple Silicon PyTorch: `pip install torch`

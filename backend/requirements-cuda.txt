@@ -1,6 +1,0 @@
-# WarpTorch CUDA Dependencies for Backend (~2-5GB)
-# Use for: NVIDIA GPUs with CUDA support
-# Install: pip install -r requirements-cuda.txt && pip install -r requirements.txt
-
-# Core Tensor Computation (with CUDA)
-torch>=2.2.0
