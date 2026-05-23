@@ -2,12 +2,13 @@
 slug: welcome
 title: Welcome to WarpTorch Documentation
 authors:
-  - name: Omar
-    title: WarpTorch Developer
+  - omar
 tags: [announcement, warptorch, release]
 ---
 
 Welcome to the official WarpTorch documentation! This blog will keep you updated with the latest developments, tutorials, and research in GPU-accelerated general relativity simulations.
+
+<!-- truncate -->
 
 ## What is WarpTorch?
 

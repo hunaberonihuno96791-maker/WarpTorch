@@ -54,12 +54,25 @@ const config: Config = {
           label: 'Documentation',
         },
         {to: '/blog', label: 'Blog', position: 'left'},
+        {to: '/team', label: 'Team', position: 'left'},
         {
           href: 'https://github.com/just-omar/WarpTorch',
           label: 'GitHub',
           position: 'right',
         },
       ],
+    },
+    authors: {
+      omar: {
+        name: 'Omar',
+        title: 'WarpTorch Developer',
+        url: 'https://github.com/just-omar',
+        image_url: 'https://github.com/just-omar.png',
+        email: 'omar@warptorch.org',
+        twitter: 'just_omar',
+        linkedin: 'just-omar',
+        github: 'just-omar',
+      },
     },
     footer: {
       style: 'dark',

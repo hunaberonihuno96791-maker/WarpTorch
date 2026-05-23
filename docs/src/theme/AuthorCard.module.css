@@ -1,0 +1,121 @@
+.authorCard {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--ifm-card-background-color);
+  border: 1px solid var(--ifm-card-border-color);
+  border-radius: var(--ifm-card-border-radius);
+  box-shadow: var(--ifm-card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.authorCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.authorContent {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.authorAvatar {
+  flex-shrink: 0;
+}
+
+.avatarImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--ifm-color-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.avatarPlaceholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  border: 3px solid var(--ifm-color-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.authorInfo {
+  flex: 1;
+}
+
+.authorName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--ifm-font-color-base);
+}
+
+.authorName a {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.authorName a:hover {
+  color: var(--ifm-color-primary-dark);
+  text-decoration: underline;
+}
+
+.authorTitle {
+  font-size: 1rem;
+  color: var(--ifm-font-color-secondary);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.authorSocials {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-font-color-base);
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.socialLink:hover {
+  background: var(--ifm-color-primary);
+  color: white;
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .authorContent {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .authorSocials {
+    justify-content: center;
+  }
+
+  .avatarImage,
+  .avatarPlaceholder {
+    width: 100px;
+    height: 100px;
+  }
+}
