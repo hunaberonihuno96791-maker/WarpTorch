@@ -4,6 +4,9 @@ title: Alcubierre Metric
 ---
 
 import WarpBubbleParamsChart from '@site/src/components/WarpBubbleParamsChart';
+import MetricPropertiesTable from '@site/src/components/MetricPropertiesTable';
+import UsageCodeBlock from '@site/src/components/UsageCodeBlock';
+import ReferencesSection from '@site/src/components/ReferencesSection';
 
 # Alcubierre Metric
 
@@ -29,8 +32,7 @@ The stress-energy tensor for the Alcubierre metric contains **negative energy de
 
 ## Usage in WarpTorch
 
-```python
-from core.metrics.alcubierre import get_alcubierre_metric
+<UsageCodeBlock code={`from core.metrics.alcubierre import get_alcubierre_metric
 
 metric = get_alcubierre_metric(
     grid_size=(1, 64, 64, 64),
@@ -43,18 +45,19 @@ metric = get_alcubierre_metric(
 
 # Access metric components
 g_uv = metric.g_uv        # Metric tensor
-coordinates = metric.coordinates  # Coordinate grid
-```
+coordinates = metric.coordinates  # Coordinate grid`} />
 
 ## Physical Properties
 
-| Property | Value |
-|----------|-------|
-| **Metric Type** | Warp Drive |
-| **Energy Conditions** | Violates WEC, NEC, SEC |
-| **Velocity** | Arbitrary v |
-| **Event Horizon** | Absent |
-| **Singularities** | None |
+<MetricPropertiesTable
+  properties={[
+    { property: '<strong>Metric Type</strong>', value: 'Warp Drive' },
+    { property: '<strong>Energy Conditions</strong>', value: 'Violates WEC, NEC, SEC' },
+    { property: '<strong>Velocity</strong>', value: 'Arbitrary v' },
+    { property: '<strong>Event Horizon</strong>', value: 'Absent' },
+    { property: '<strong>Singularities</strong>', value: 'None' },
+  ]}
+/>
 
 ## Interactive Parameter Exploration
 
@@ -75,5 +78,19 @@ More interactive visualizations are available on the [Demo page](/docs/interacti
 
 ## References
 
-- Alcubierre, M. (1994). "The warp drive: hyper-fast travel within general relativity". Classical and Quantum Gravity.
-- [WarpFactory documentation](https://warpfactory.org)
+<ReferencesSection
+  references={[
+    {
+      authors: 'Alcubierre, M.',
+      title: 'The warp drive: hyper-fast travel within general relativity',
+      journal: 'Classical and Quantum Gravity',
+      year: '1994',
+      link: 'https://doi.org/10.1088/0264-9381/11/5/001',
+    },
+    {
+      title: 'WarpFactory documentation',
+      link: 'https://warpfactory.org',
+      description: 'Advanced warp drive simulation toolkit',
+    },
+  ]}
+/>
