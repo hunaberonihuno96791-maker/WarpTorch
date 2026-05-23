@@ -2,6 +2,9 @@
 # Stage 1: Builder
 FROM python:3.12-slim AS builder
 
+# Build argument to choose between CPU and CUDA versions
+ARG TORCH_VERSION=cpu
+
 WORKDIR /app
 
 # Install build dependencies
@@ -11,10 +14,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy requirements first for better caching
 COPY backend/requirements.txt .
-COPY requirements.txt .
+COPY backend/requirements-${TORCH_VERSION}.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir --user -r requirements-${TORCH_VERSION}.txt
 
 # Stage 2: Runtime
 FROM python:3.12-slim

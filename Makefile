@@ -1,4 +1,4 @@
-.PHONY: help up down logs restart clean
+.PHONY: help up down logs restart clean install install-cpu install-cuda detect docker-build docker-build-cpu docker-build-cuda
 
 DOCKER_COMPOSE := $(shell command -v docker-compose >/dev/null 2>&1 && echo "docker-compose" || echo "docker compose")
 
@@ -12,6 +12,17 @@ help:
 	@echo "  make logs    - Смотреть логи"
 	@echo "  make restart - Перезапустить симуляцию"
 	@echo "  make clean   - Полная очистка"
+	@echo ""
+	@echo "Hardware detection & installation:"
+	@echo "  make detect         - Detect hardware and show recommended installation"
+	@echo "  make install        - Auto-install based on detected hardware"
+	@echo "  make install-cpu    - Install CPU-only version (fast, ~200MB)"
+	@echo "  make install-cuda   - Install NVIDIA CUDA version (slow, ~2-5GB)"
+	@echo ""
+	@echo "Docker builds:"
+	@echo "  make docker-build       - Build Docker image (auto-detect hardware)"
+	@echo "  make docker-build-cpu   - Build CPU-only Docker image"
+	@echo "  make docker-build-cuda  - Build CUDA Docker image"
 	@echo "=========================================="
 
 up:
@@ -33,3 +44,41 @@ restart:
 clean:
 	$(DOCKER_COMPOSE) down -v --remove-orphans
 	@echo "\033[32m✓ Очистка завершена\033[0m"
+
+# Hardware detection & installation commands
+detect:
+	@python detect_hardware.py
+
+install: detect
+	@echo "📦 Installing WarpTorch dependencies..."
+	@if python detect_hardware.py | grep -q "NVIDIA"; then \
+		pip install -r backend/requirements-cuda.txt; \
+	else \
+		pip install -r backend/requirements-cpu.txt; \
+	fi
+
+install-cpu:
+	@echo "📦 Installing CPU-only PyTorch (fast & lightweight)..."
+	pip install -r backend/requirements-cpu.txt
+
+install-cuda:
+	@echo "📦 Installing CUDA-enabled PyTorch (large download)..."
+	pip install -r backend/requirements-cuda.txt
+
+docker-build:
+	@echo "🐳 Building Docker image..."
+	@if python detect_hardware.py | grep -q "NVIDIA"; then \
+		echo "Building with CUDA support..."; \
+		docker build -f backend/Dockerfile --build-arg TORCH_VERSION=cuda -t warptorch-backend .; \
+	else \
+		echo "Building CPU-only version..."; \
+		docker build -f backend/Dockerfile --build-arg TORCH_VERSION=cpu -t warptorch-backend .; \
+	fi
+
+docker-build-cpu:
+	@echo "🐳 Building CPU-only Docker image..."
+	docker build -f backend/Dockerfile --build-arg TORCH_VERSION=cpu -t warptorch-backend .
+
+docker-build-cuda:
+	@echo "🐳 Building CUDA-enabled Docker image..."
+	docker build -f backend/Dockerfile --build-arg TORCH_VERSION=cuda -t warptorch-backend .

@@ -1,8 +1,10 @@
-# WarpTorch Core Dependencies
+# WarpTorch Core Dependencies (CPU-only by default)
 # Install: pip install -r requirements.txt
+# For NVIDIA CUDA: pip install -r backend/requirements-cuda.txt
 
-# Core Tensor Computation
-torch>=2.2.0
+# Core Tensor Computation (CPU-only - fast install)
+# Note: Using specific version with == for CPU builds. To upgrade, change version manually.
+torch==2.2.0 --extra-index-url https://download.pytorch.org/whl/cpu
 
 # Science & Data Manipulation
 numpy>=1.24.0
