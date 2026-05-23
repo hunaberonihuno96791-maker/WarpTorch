@@ -3,6 +3,8 @@ sidebar_position: 3
 title: Schwarzschild Metric
 ---
 
+import BlackHoleVisualization from '@site/src/components/BlackHoleVisualization';
+
 # Schwarzschild Metric
 
 Classical solution of Einstein's equations for a spherically symmetric black body.
@@ -53,9 +55,19 @@ energy = get_energy_tensor(metric)
 | **Angular Momentum** | J = 0 |
 | **Event Horizon** | rs = 2GM/c² |
 
-## Spacetime Visualization
+## Interactive Black Hole Visualization
 
-Interactive visualizations are available on the [Demo page](/docs/interactive-demo).
+Explore how the Schwarzschild metric changes with different black hole masses:
+
+<BlackHoleVisualization />
+
+## Key Features
+
+The visualization shows:
+- **Event Horizon**: Point where g_tt = 0, marking the boundary of no return
+- **Time Dilation**: g_tt component shows gravitational time dilation effects
+- **Interior**: Inside the horizon, space and time coordinates swap roles
+- **Asymptotic Behavior**: Far from the black hole, spacetime becomes flat
 
 ## References
 

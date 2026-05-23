@@ -3,6 +3,8 @@ sidebar_position: 2
 title: Lentz Metric
 ---
 
+import WarpBubbleParamsChart from '@site/src/components/WarpBubbleParamsChart';
+
 # Lentz Metric
 
 Positive energy warp metric proposed by Erik Lentz in 2021.
@@ -52,9 +54,19 @@ conditions = check_energy_conditions(metric)
 2. **Stability** — more stable to perturbations
 3. **Experimental Verification** — can be tested in laboratory settings
 
-## Energy Distribution Visualization
+## Interactive Parameter Exploration
 
-Interactive visualizations are available on the [Demo page](/docs/interactive-demo).
+While the Lentz metric has different parameter requirements than Alcubierre, you can explore similar energy-velocity trade-offs:
+
+<WarpBubbleParamsChart />
+
+:::note Note
+The visualization above uses Alcubierre-style parameters for comparison. Lentz metrics typically show reduced energy requirements and better energy condition compliance.
+:::
+
+## Energy Distribution Comparison
+
+Compare energy requirements between different metrics in the [Metrics Overview](/docs/core-concepts/metrics).
 
 ## References
 

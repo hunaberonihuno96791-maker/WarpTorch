@@ -44,6 +44,7 @@ const sidebars: SidebarsConfig = {
         'tutorials/alcubierre-simulation',
         'tutorials/lentz-simulation',
         'tutorials/custom-metrics',
+        'interactive-demo',
       ],
     },
   ],

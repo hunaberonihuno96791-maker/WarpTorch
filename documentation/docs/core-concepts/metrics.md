@@ -2,6 +2,8 @@
 sidebar_position: 1
 ---
 
+import MetricComparisonChart from '@site/src/components/MetricComparisonChart';
+
 # Spacetime Metrics
 
 ## What are Metrics?
@@ -56,6 +58,21 @@ metric = get_schwarzschild_metric(
     device=device
 )
 ```
+
+## Metric Comparison
+
+Compare different warp metrics across key parameters:
+
+<MetricComparisonChart />
+
+### Analysis
+
+The visualization shows important trade-offs:
+
+- **Alcubierre**: Highest energy requirements, violates energy conditions, but conceptually simple
+- **Lentz**: Moderate energy, can satisfy energy conditions, more physically realistic
+- **Van den Broeck**: Intermediate solution using micro-bubble techniques
+- **Schwarzschild**: Zero energy requirement (vacuum solution), naturally stable
 
 ## Metric Structure
 

@@ -3,6 +3,8 @@ sidebar_position: 4
 title: Van den Broeck Metric
 ---
 
+import MicroBubbleChart from '@site/src/components/MicroBubbleChart';
+
 # Van den Broeck Metric
 
 Modified warp metric with micro-bubble that reduces exotic matter requirements.
@@ -46,6 +48,12 @@ total_exotic_energy = energy_density.sum()
 | **Velocity** | Arbitrary $v$ |
 | **Efficiency** | Higher than Alcubierre |
 
+## Interactive Micro-Bubble Analysis
+
+Experiment with different compression factors to understand the micro-bubble advantage:
+
+<MicroBubbleChart />
+
 ## Advantages Over Alcubierre
 
 | Parameter | Alcubierre | Van den Broeck |
@@ -54,9 +62,15 @@ total_exotic_energy = energy_density.sum()
 | **Bubble Volume** | Full | Micro-bubble |
 | **Practicality** | Theoretical | More achievable |
 
-## Conformal Factor Visualization
+## Key Innovation
 
-Interactive visualizations are available on the [Demo page](/docs/interactive-demo).
+The micro-bubble technique uses a **conformal factor** to compress the interior volume while maintaining the same external bubble size. This reduces the total exotic matter requirement by several orders of magnitude.
+
+**Trade-offs:**
+- Reduced total exotic matter
+- Higher energy density in smaller region
+- More complex mathematical structure
+- Requires careful fine-tuning
 
 ## References
 

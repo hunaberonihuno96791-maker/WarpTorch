@@ -26,11 +26,11 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/just-omar/WarpTorch/tree/main/docs/',
+          editUrl: 'https://github.com/just-omar/WarpTorch/tree/main/documentation/',
         },
         blog: {
           showReadingTime: true,
-          editUrl: 'https://github.com/just-omar/WarpTorch/tree/main/docs/',
+          editUrl: 'https://github.com/just-omar/WarpTorch/tree/main/documentation/',
         },
         theme: {
           customCss: './src/css/custom.css',

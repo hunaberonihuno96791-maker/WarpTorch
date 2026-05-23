@@ -3,6 +3,8 @@ sidebar_position: 1
 title: Alcubierre Metric
 ---
 
+import WarpBubbleParamsChart from '@site/src/components/WarpBubbleParamsChart';
+
 # Alcubierre Metric
 
 The original warp metric proposed by Miguel Alcubierre in 1994.
@@ -54,9 +56,22 @@ coordinates = metric.coordinates  # Coordinate grid
 | **Event Horizon** | Absent |
 | **Singularities** | None |
 
+## Interactive Parameter Exploration
+
+Experiment with different warp bubble parameters to understand their effect on energy requirements:
+
+<WarpBubbleParamsChart />
+
+## Key Insights from Visualization
+
+- **Velocity Impact**: Energy requirements increase exponentially with velocity
+- **Bubble Size**: Larger radius reduces energy density but increases total energy
+- **Optimal Range**: Most practical configurations use v < 2c and R = 5-10 units
+- **Energy Limits**: Astronomical energy requirements for high velocities
+
 ## Visualization
 
-Interactive visualizations are available on the [Demo page](/docs/interactive-demo).
+More interactive visualizations are available on the [Demo page](/docs/interactive-demo).
 
 ## References
 

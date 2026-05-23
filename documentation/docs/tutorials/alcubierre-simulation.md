@@ -2,13 +2,23 @@
 sidebar_position: 1
 ---
 
+import SimulationStepsChart from '@site/src/components/SimulationStepsChart';
+
 # Alcubierre Warp Drive Simulation
 
 ## Overview
 
 This tutorial walks through creating a classic Alcubierre warp drive simulation using WarpTorch.
 
-## Step 1: Setup Environment
+## Interactive Simulation Steps
+
+Explore each step of the simulation process with visualizations:
+
+<SimulationStepsChart />
+
+## Detailed Implementation
+
+### Step 1: Setup Environment
 
 ```python
 import torch
@@ -21,7 +31,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 ```
 
-## Step 2: Create Alcubierre Metric
+### Step 2: Create Alcubierre Metric
 
 ```python
 # Initialize warp bubble parameters
@@ -37,7 +47,7 @@ metric = get_alcubierre_metric(
 print(f"Metric tensor shape: {metric.g_uv.shape}")
 ```
 
-## Step 3: Compute Energy Requirements
+### Step 3: Compute Energy Requirements
 
 ```python
 # Solve Einstein's equations
@@ -52,7 +62,7 @@ print(f"Min energy density: {energy_density.min().item():.2e}")
 print(f"Max energy density: {energy_density.max().item():.2e}")
 ```
 
-## Step 4: Analyze Spacetime Geometry
+### Step 4: Analyze Spacetime Geometry
 
 ```python
 # Compute kinematic scalars
@@ -68,7 +78,7 @@ nec_violations = check_nec(energy_tensor).sum().item()
 print(f"NEC violations: {nec_violations} grid points")
 ```
 
-## Step 5: Visualize Results
+### Step 5: Visualize Results
 
 ```python
 import matplotlib.pyplot as plt
@@ -105,7 +115,7 @@ plt.savefig('alcubierre_analysis.png', dpi=150)
 plt.show()
 ```
 
-## Step 6: Export for Web Visualization
+### Step 6: Export for Web Visualization
 
 ```python
 from core.analyzer.export import export_metric_to_json
