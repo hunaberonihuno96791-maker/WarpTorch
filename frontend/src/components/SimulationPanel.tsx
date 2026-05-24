@@ -9,6 +9,7 @@ interface SimulationPanelProps {
 
 function SimulationPanel({ onStart, isSimulating, results }: SimulationPanelProps) {
   const [params, setParams] = useState({
+    metric: 'alcubierre', // Новое поле
     velocity: 1.5,
     radius: 6.0,
     sigma: 4.0,
@@ -23,9 +24,24 @@ function SimulationPanel({ onStart, isSimulating, results }: SimulationPanelProp
     <div className="simulation-panel">
       <div className="panel-content">
         <h2>WarpTorch Simulator</h2>
-        <p className="subtitle">Alcubierre Warp Drive Visualization</p>
+        <p className="subtitle">Spacetime Metric Visualization</p>
 
         <div className="controls">
+          <div className="control-group">
+            <label>Spacetime Metric:</label>
+            <select
+              value={params.metric}
+              onChange={(e) => setParams({ ...params, metric: e.target.value })}
+              disabled={isSimulating}
+              className="metric-select"
+              style={{ padding: '8px', background: '#1a1a2e', color: '#fff', border: '1px solid #0055aa', borderRadius: '4px', width: '100%' }}
+            >
+              <option value="alcubierre">Alcubierre (1994) - Classic</option>
+              <option value="lentz">Lentz (2021) - Positive Energy</option>
+              <option value="vandenbroeck">Van Den Broeck (1999) - Micro</option>
+            </select>
+          </div>
+
           <div className="control-group">
             <label>
               Velocity (v):
@@ -73,22 +89,6 @@ function SimulationPanel({ onStart, isSimulating, results }: SimulationPanelProp
               disabled={isSimulating}
             />
           </div>
-
-          <div className="control-group">
-            <label>
-              Grid Resolution:
-              <span className="value">{params.gridSize}³</span>
-            </label>
-            <select
-              value={params.gridSize}
-              onChange={(e) => setParams({ ...params, gridSize: parseInt(e.target.value) })}
-              disabled={isSimulating}
-            >
-              <option value="32">32³ (Very Fast)</option>
-              <option value="64">64³ (Medium)</option>
-              <option value="96">96³ (High)</option>
-            </select>
-          </div>
         </div>
 
         <div className="info-panel">
@@ -105,20 +105,20 @@ function SimulationPanel({ onStart, isSimulating, results }: SimulationPanelProp
               <>
                 <div className="info-item">
                   <span className="label">Min Energy Density:</span>
-                  <span className="value negative">
+                  <span className={`value ${results.statistics.min < 0 ? 'negative' : 'positive'}`}>
                     {results.statistics.min.toExponential(2)}
                   </span>
                 </div>
                 <div className="info-item">
                   <span className="label">Max Energy Density:</span>
-                  <span className="value">
+                  <span className="value positive">
                     {results.statistics.max.toExponential(2)}
                   </span>
                 </div>
                 <div className="info-item">
                   <span className="label">Condition:</span>
-                  <span className="value negative">
-                    {results.metadata?.energy_condition || 'Violated'}
+                  <span className={`value ${results.metadata?.energy_condition === 'Satisfied' ? 'positive' : 'negative'}`}>
+                    {results.metadata?.energy_condition || (params.metric === 'lentz' ? 'Satisfied' : 'Violated')}
                   </span>
                 </div>
               </>
@@ -130,6 +130,7 @@ function SimulationPanel({ onStart, isSimulating, results }: SimulationPanelProp
           className="start-button"
           onClick={handleStart}
           disabled={isSimulating}
+          style={{ marginTop: '15px' }}
         >
           {isSimulating ? 'Simulating...' : 'Start Simulation'}
         </button>
