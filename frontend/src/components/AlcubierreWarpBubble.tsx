@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -9,132 +9,123 @@ interface AlcubierreWarpBubbleProps {
   sigma: number
 }
 
-function AlcubierreWarpBubble({ data: _data, velocity: _velocity = 1.5, radius = 6, sigma = 4 }: AlcubierreWarpBubbleProps) {
-  const gridRef = useRef<THREE.LineSegments>(null)
-  const bubbleRef = useRef<THREE.Mesh>(null)
+function AlcubierreWarpBubble({ data, velocity, radius, sigma }: AlcubierreWarpBubbleProps) {
+  const planeRef = useRef<THREE.Mesh>(null)
+  const bubbleRef = useRef<THREE.Group>(null)
+  const coreMaterialRef = useRef<THREE.MeshBasicMaterial>(null)
+  const shellMaterialRef = useRef<THREE.MeshBasicMaterial>(null)
 
-  // Create lightweight spacetime grid
-  const spacetimeGrid = useMemo(() => {
-    const gridSize = 20
-    const divisions = 8 // Reduced from 20 for better performance
-    const points: number[] = []
+  const current = useRef({ radius: 0, sigma: 1, velocity: 0 })
 
-    // Create grid lines along X axis
-    for (let i = 0; i <= divisions; i++) {
-      const z = (i / divisions - 0.5) * gridSize
-      for (let j = 0; j <= divisions; j++) {
-        const y = (j / divisions - 0.5) * gridSize
-        const x1 = -gridSize / 2
-        const x2 = gridSize / 2
-        points.push(x1, y, z, x2, y, z)
-      }
+  // Создаем плотно разбитую плоскость, чтобы вершины могли изгибаться (100x100 сегментов)
+  const spacetimeSheet = useMemo(() => {
+    const geometry = new THREE.PlaneGeometry(50, 50, 100, 100)
+    geometry.rotateX(-Math.PI / 2) // Кладем плоскость горизонтально
+    return {
+      geometry,
+      originalPositions: new Float32Array(geometry.attributes.position.array)
     }
-
-    // Create grid lines along Y axis
-    for (let i = 0; i <= divisions; i++) {
-      const z = (i / divisions - 0.5) * gridSize
-      for (let j = 0; j <= divisions; j++) {
-        const x = (j / divisions - 0.5) * gridSize
-        const y1 = -gridSize / 2
-        const y2 = gridSize / 2
-        points.push(x, y1, z, x, y2, z)
-      }
-    }
-
-    // Create grid lines along Z axis
-    for (let i = 0; i <= divisions; i++) {
-      const y = (i / divisions - 0.5) * gridSize
-      for (let j = 0; j <= divisions; j++) {
-        const x = (j / divisions - 0.5) * gridSize
-        const z1 = -gridSize / 2
-        const z2 = gridSize / 2
-        points.push(x, y, z1, x, y, z2)
-      }
-    }
-
-    const geometry = new THREE.BufferGeometry()
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3))
-
-    return { geometry, originalPositions: new Float32Array(points) }
   }, [])
 
-  // Alcubierre warp function
-  const alcubierreMetric = (x: number, y: number, z: number, _t: number) => {
-    const rs = Math.sqrt(x * x + y * y + z * z)
-    const warpFactor = Math.tanh((rs + radius) / sigma) - Math.tanh((rs - radius) / sigma)
-    const energyDensity = -(warpFactor * warpFactor) / (2 * sigma * sigma)
-    return { warpFactor, energyDensity, rs }
-  }
+  const targetCoreColor = useMemo(() => new THREE.Color("#00ffff"), [])
+  const targetShellColor = useMemo(() => new THREE.Color("#00aaff"), [])
+
+  useEffect(() => {
+    if (data && data.statistics) {
+      const minEnergy = data.statistics.min
+      const intensity = Math.min(1, Math.abs(minEnergy) / 5)
+      targetCoreColor.setHSL(0.8 - (intensity * 0.8), 1, 0.6)
+      targetShellColor.setHSL(0.8 - (intensity * 0.8), 1, 0.3)
+    } else {
+      targetCoreColor.set("#00ffff")
+      targetShellColor.set("#00aaff")
+    }
+  }, [data, targetCoreColor, targetShellColor])
 
   useFrame((state) => {
-    if (!gridRef.current) return
+    // Плавная интерполяция
+    current.current.radius = THREE.MathUtils.lerp(current.current.radius, radius, 0.05)
+    current.current.sigma = THREE.MathUtils.lerp(current.current.sigma, sigma, 0.05)
+    current.current.velocity = THREE.MathUtils.lerp(current.current.velocity, velocity, 0.05)
+
+    if (coreMaterialRef.current) coreMaterialRef.current.color.lerp(targetCoreColor, 0.05)
+    if (shellMaterialRef.current) shellMaterialRef.current.color.lerp(targetShellColor, 0.05)
+
+    if (!planeRef.current) return
 
     const time = state.clock.elapsedTime
-    const positions = gridRef.current.geometry.attributes.position.array as Float32Array
-    const original = spacetimeGrid.originalPositions
+    const positions = planeRef.current.geometry.attributes.position.array as Float32Array
+    const original = spacetimeSheet.originalPositions
 
-    // Move warp bubble along x-axis
-    const bubbleCenter = Math.sin(time * 0.2) * 8
+    const rT = current.current.radius
+    const sT = current.current.sigma
+    const vT = current.current.velocity
 
+    // Искривление "резинового листа" пространства
     for (let i = 0; i < positions.length / 3; i++) {
       const origX = original[i * 3]
-      const origY = original[i * 3 + 1]
+      const origY = original[i * 3 + 1] 
       const origZ = original[i * 3 + 2]
 
-      const { warpFactor } = alcubierreMetric(
-        origX - bubbleCenter,
-        origY,
-        origZ,
-        time
-      )
+      const rs = Math.sqrt(origX * origX + origZ * origZ)
 
-      // Apply spacetime distortion to grid
-      const distortion = warpFactor * 0.8
-      positions[i * 3] = origX + distortion * 0.5
-      positions[i * 3 + 1] = origY + Math.sin(origX * 0.3 + time) * distortion * 0.4
-      positions[i * 3 + 2] = origZ + Math.cos(origY * 0.3 + time) * distortion * 0.4
+      // Визуализация скаляра расширения (Theta). 
+      // Пространство сильнее всего деформируется на границе пузыря (rs ≈ rT).
+      // Формируем Гауссиан на стенке пузыря.
+      const wallProximity = Math.exp(-Math.pow(rs - rT, 2) / (sT * sT))
+
+      // Смещение по высоте (ось Y):
+      // Спереди (X > 0) пространство сжимается (проваливается вниз)
+      // Сзади (X < 0) пространство расширяется (выдавливается наверх)
+      const waveHeight = -origX * wallProximity * vT * 0.4
+
+      positions[i * 3 + 1] = origY + waveHeight
     }
 
-    gridRef.current.geometry.attributes.position.needsUpdate = true
+    planeRef.current.geometry.attributes.position.needsUpdate = true
 
-    if (bubbleRef.current) {
-      bubbleRef.current.rotation.y = time * 0.1
+    if (bubbleRef.current && rT > 0.1) {
+      bubbleRef.current.scale.setScalar(rT)
+      bubbleRef.current.rotation.x = time * 0.5
+      bubbleRef.current.rotation.y = time * 0.3
+      bubbleRef.current.visible = true
+    } else if (bubbleRef.current) {
+      bubbleRef.current.visible = false
     }
   })
 
   return (
     <group>
-      {/* Spacetime grid - visualizes distortion */}
-      <lineSegments ref={gridRef} geometry={spacetimeGrid.geometry}>
-        <lineBasicMaterial
-          color="#00aaff"
-          transparent
-          opacity={0.4}
-          linewidth={1}
-        />
-      </lineSegments>
-
-      {/* Warp bubble boundary */}
-      <mesh ref={bubbleRef}>
-        <sphereGeometry args={[radius, 32, 32]} />
+      {/* Теперь это единая сетка, которая по-настоящему изгибается */}
+      <mesh ref={planeRef} geometry={spacetimeSheet.geometry}>
         <meshBasicMaterial
-          color="#00ffff"
+          color="#0055aa"
           wireframe
           transparent
-          opacity={0.3}
+          opacity={0.4}
         />
       </mesh>
 
-      {/* Energy field glow */}
-      <mesh position={[0, 0, 0]}>
-        <sphereGeometry args={[radius * 1.2, 32, 32]} />
-        <meshBasicMaterial
-          color="#ff00ff"
-          transparent
-          opacity={0.1}
-          side={THREE.BackSide}
-        />
-      </mesh>
+      <group ref={bubbleRef}>
+        <mesh>
+          <sphereGeometry args={[1, 32, 32]} />
+          <meshBasicMaterial
+            ref={shellMaterialRef}
+            wireframe
+            transparent
+            opacity={0.2}
+          />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[0.7, 16, 16]} />
+          <meshBasicMaterial
+            ref={coreMaterialRef}
+            transparent
+            opacity={0.5}
+            wireframe
+          />
+        </mesh>
+      </group>
     </group>
   )
 }

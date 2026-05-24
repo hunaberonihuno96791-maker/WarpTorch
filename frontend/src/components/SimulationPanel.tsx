@@ -4,14 +4,15 @@ import './SimulationPanel.css'
 interface SimulationPanelProps {
   onStart: (params: any) => void
   isSimulating: boolean
+  results?: any
 }
 
-function SimulationPanel({ onStart, isSimulating }: SimulationPanelProps) {
+function SimulationPanel({ onStart, isSimulating, results }: SimulationPanelProps) {
   const [params, setParams] = useState({
     velocity: 1.5,
     radius: 6.0,
     sigma: 4.0,
-    gridSize: 96
+    gridSize: 64
   })
 
   const handleStart = () => {
@@ -49,7 +50,7 @@ function SimulationPanel({ onStart, isSimulating }: SimulationPanelProps) {
             <input
               type="range"
               min="2.0"
-              max="10.0"
+              max="15.0"
               step="0.5"
               value={params.radius}
               onChange={(e) => setParams({ ...params, radius: parseFloat(e.target.value) })}
@@ -60,7 +61,7 @@ function SimulationPanel({ onStart, isSimulating }: SimulationPanelProps) {
           <div className="control-group">
             <label>
               Boundary Thickness (σ):
-              <span className="value">{params.sigma.toFixed(1)}</span>
+               <span className="value">{params.sigma.toFixed(1)}</span>
             </label>
             <input
               type="range"
@@ -83,10 +84,9 @@ function SimulationPanel({ onStart, isSimulating }: SimulationPanelProps) {
               onChange={(e) => setParams({ ...params, gridSize: parseInt(e.target.value) })}
               disabled={isSimulating}
             >
-              <option value="48">48³ (Fast)</option>
+              <option value="32">32³ (Very Fast)</option>
               <option value="64">64³ (Medium)</option>
               <option value="96">96³ (High)</option>
-              <option value="128">128³ (Ultra)</option>
             </select>
           </div>
         </div>
@@ -95,19 +95,34 @@ function SimulationPanel({ onStart, isSimulating }: SimulationPanelProps) {
           <h3>Simulation Info</h3>
           <div className="info-grid">
             <div className="info-item">
-              <span className="label">Metric:</span>
-              <span className="value">Alcubierre (1994)</span>
-            </div>
-            <div className="info-item">
-              <span className="label">Energy Condition:</span>
-              <span className="value negative">Negative</span>
-            </div>
-            <div className="info-item">
               <span className="label">Status:</span>
               <span className={`value ${isSimulating ? 'running' : 'ready'}`}>
                 {isSimulating ? 'Running...' : 'Ready'}
               </span>
             </div>
+            
+            {results && results.statistics && (
+              <>
+                <div className="info-item">
+                  <span className="label">Min Energy Density:</span>
+                  <span className="value negative">
+                    {results.statistics.min.toExponential(2)}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <span className="label">Max Energy Density:</span>
+                  <span className="value">
+                    {results.statistics.max.toExponential(2)}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <span className="label">Condition:</span>
+                  <span className="value negative">
+                    {results.metadata?.energy_condition || 'Violated'}
+                  </span>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
